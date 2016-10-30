@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+                <!-- Customize your theme here. -->
+                <item name="colorPrimary">@android:color/holo_blue_light</item>
+                <item name="colorPrimaryDark">@android:color/holo_blue_light</item>
+                <item name="colorAccent">#4F94CD</item>
+
+        </style>
+        <style name="NoteStyle" parent="AppTheme">
+                <item name="android:statusBarColor">@android:color/transparent</item>
+        </style>
+
+        <style name="Theme.AppStartLoad" parent="AppTheme">
+                <item name="android:windowBackground">@mipmap/startbackground</item>
+                <item name="windowNoTitle">true</item>
+                <item name="android:statusBarColor">@android:color/transparent</item>
+        </style>
+</resources>

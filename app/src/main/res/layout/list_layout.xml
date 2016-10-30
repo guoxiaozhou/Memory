@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_jibiji"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/jibiji"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:text="记笔记"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_fenlei"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/fenlei"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:text="分类"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_zhangben"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/jizhang"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:text="账本"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_beiwang"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/beiwang"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:text="备忘"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_daojishi"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@mipmap/daojishi"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <TextView
+                android:text="倒计时"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+<android.support.v4.widget.SwipeRefreshLayout
+
+    android:id="@+id/swipeLayout"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/linearborder"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="220dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_allnote"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageview"
+                android:src="@mipmap/noteone"
+                android:layout_width="45dp"
+                android:layout_height="45dp" />
+            <TextView
+                android:text="笔记"
+                android:layout_marginLeft="6dp"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@id/imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp" />
+            <ImageView
+                android:id="@+id/imageview2"
+                android:src="@mipmap/arrow_right"
+                android:layout_alignParentRight="true"
+                android:layout_width="35dp"
+                android:layout_height="45dp" />
+            <TextView
+                android:layout_toLeftOf="@id/imageview2"
+                android:layout_marginRight="6dp"
+                android:text="全部"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp" />
+        </RelativeLayout>
+        <ImageView
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+</LinearLayout>

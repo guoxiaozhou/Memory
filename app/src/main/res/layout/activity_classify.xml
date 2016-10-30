@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAEAEA"
+    >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_classify"
+        android:background="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:paddingLeft="8dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@mipmap/toolbarbk"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="分类"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"/>
+
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_classify"
+        android:layout_width="match_parent"
+        android:background="@drawable/linearborder"
+        android:layout_margin="10dp"
+        android:layout_height="match_parent">
+        <ExpandableListView
+            android:id="@+id/expandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

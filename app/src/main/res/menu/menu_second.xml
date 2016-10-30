@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activity.EditActivity">
+      <item
+          android:title="@string/action_ok"
+          android:id="@+id/action_ok"
+          android:icon="@mipmap/ic_done_white_24dp"
+          android:orderInCategory="80"
+          app:showAsAction="ifRoom"/>
+
+</menu>

@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">#4F94CD</item>
+        <item name="colorAccent">#4F94CD</item>
+
+    </style>
+    <style name="ToolBarTitleText" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+
+    <style name="CustomTab" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/darker_gray</item>
+        <item name="tabSelectedTextColor">@android:color/holo_blue_light</item>
+        <item name="tabBackground">@android:color/white</item>
+        <item name="tabIndicatorHeight">0dp</item>
+    </style>
+
+
+
+    <style name="transparentText" parent="TextAppearance.AppCompat.Small">
+    <item name="android:textColor">#00000000</item>
+     </style>
+    <style name="Theme.AppStartLoad" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/startbackground</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>
