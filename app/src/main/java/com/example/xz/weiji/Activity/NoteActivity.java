@@ -5,17 +5,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,13 +31,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xz.weiji.Fragment.MoneyListFragment;
+import com.example.xz.weiji.Fragment.MyFragment;
 import com.example.xz.weiji.Fragment.NoteListFragment;
 import com.example.xz.weiji.R;
 import com.lzp.floatingactionbuttonplus.FabTagLayout;
 import com.lzp.floatingactionbuttonplus.FloatingActionButtonPlus;
-
-import cn.bmob.v3.BmobUser;
 
 /**
  * Created by xz on 2016/9/20.
@@ -55,7 +47,7 @@ public class NoteActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private ViewPager view_pager;
     //  private AppBarLayout app_bar_layout;
     private NoteListFragment noteListFragment1;
-    private MoneyListFragment moneyListFragment;
+    private MyFragment myFragment;
     private PagerAdapter pagerAdapter;
     //  Bitmap bitmap;
     private TabLayout tab_layout;
@@ -195,8 +187,8 @@ public class NoteActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         if (noteListFragment1 == null) {
             noteListFragment1 = new NoteListFragment();
         }
-        if (moneyListFragment == null) {
-            moneyListFragment = new MoneyListFragment();
+        if (myFragment == null) {
+            myFragment = new MyFragment();
         }
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         view_pager.setAdapter(pagerAdapter);
@@ -257,7 +249,7 @@ public class NoteActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             if (position == 0) {
                 return noteListFragment1;
             } else if (position == 1) {
-                return moneyListFragment;
+                return myFragment;
             }
             return null;
         }

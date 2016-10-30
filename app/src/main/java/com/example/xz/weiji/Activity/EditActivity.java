@@ -60,7 +60,7 @@ public class EditActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 public void done(String s, BmobException e) {
                     if (e == null) {
                         Toast.makeText(EditActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(EditActivity.this, ReFirestpageActivity.class);
+                        Intent i = new Intent(EditActivity.this, NoteListActivity.class);
                         i.putExtra("name", user.getUsername());
                         startActivity(i);
                         finish();
@@ -139,7 +139,7 @@ public class EditActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 if (e == null) {
                     Toast.makeText(EditActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
                    // Toast.makeText(EditActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(EditActivity.this, ReFirestpageActivity.class);
+                    Intent i = new Intent(EditActivity.this, NoteListActivity.class);
                     i.putExtra("name", user.getUsername());
                     startActivity(i);
                     finish();
@@ -158,8 +158,11 @@ public class EditActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 //            startActivity(intent);
 //            finish();
 //        }else if(i.getStringExtra("类名")=="NoteListActivity"){
-            super.onBackPressed();
-
+            //super.onBackPressed();
+        Intent i = new Intent(EditActivity.this, NoteListActivity.class);
+        i.putExtra("name", user.getUsername());
+        startActivity(i);
+        finish();
         //super.onBackPressed();
 
     }

@@ -53,12 +53,12 @@ public class EachMonthActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        Intent i=new Intent(EachMonthActivity.this,NoteActivity.class);
-        BmobUser user=BmobUser.getCurrentUser();
-        i.putExtra("name",user.getUsername());
-        startActivity(i);
-        finish();
+        super.onBackPressed();
+//        Intent i=new Intent(EachMonthActivity.this,NoteActivity.class);
+//        BmobUser user=BmobUser.getCurrentUser();
+//        i.putExtra("name",user.getUsername());
+//        startActivity(i);
+//        finish();
     }
     private void onRefresh() {
         final List<Money> somelist = new ArrayList<Money>();
@@ -124,11 +124,12 @@ public class EachMonthActivity extends AppCompatActivity {
         tb_eachmonth.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(EachMonthActivity.this,NoteActivity.class);
-                BmobUser user=BmobUser.getCurrentUser();
-                i.putExtra("name",user.getUsername());
-                startActivity(i);
-                finish();
+//                Intent i=new Intent(EachMonthActivity.this,NoteActivity.class);
+//                BmobUser user=BmobUser.getCurrentUser();
+//                i.putExtra("name",user.getUsername());
+//                startActivity(i);
+//                finish();
+                onBackPressed();
             }
         });
         swipeLayout.setColorSchemeResources(R.color.blue);

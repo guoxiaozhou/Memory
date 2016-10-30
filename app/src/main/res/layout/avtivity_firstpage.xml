@@ -13,14 +13,30 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:layout_height="?attr/actionBarSize">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:src="@mipmap/icon"
+            app:border_color="@android:color/white"
+            android:paddingLeft="10dp"
+            app:border_width="1dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+        <TextView
+            android:id="@+id/tv_user"
+            android:text="hahahh"
+            android:paddingLeft="15dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>
 
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
-        <!--android:src="@color/white"-->
-        <!--android:layout_height="0.5dp" />-->
+        <!--android:src="@android:color/white"-->
+        <!--android:layout_height="0.3dp" />-->
 
 
     <android.support.v4.view.ViewPager
@@ -36,10 +52,9 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
-        android:elevation="15dip"
-        android:background="@mipmap/zhuyetwo"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         style="@style/CustomTab"
         app:tabTextColor="@android:color/darker_gray">

@@ -87,7 +87,7 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i("onCreateView", "执行了");
-        view = inflater.inflate(R.layout.list_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_shouye, container, false);
         initView(view);
         return view;
     }
@@ -270,7 +270,6 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
         String s="ReFirestpageActivity";
         i.putExtra("类名",s);
         startActivity(i);
-        getActivity().finish();
     }
 
     @Override
@@ -384,7 +383,7 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
         //加载xml布局
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note, parent, false));
+            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_shouye_note, parent, false));
             return holder;
         }
 

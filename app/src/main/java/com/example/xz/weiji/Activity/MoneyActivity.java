@@ -333,7 +333,9 @@ public class MoneyActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
+        startActivity(new Intent(MoneyActivity.this,ZhangbenActivity.class));
+        finish();
     }
 
     private void setMoney() {

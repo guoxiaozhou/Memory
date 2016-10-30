@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xz.weiji.DataTable.Money;
-import com.example.xz.weiji.Fragment.MoneyListFragment;
 import com.example.xz.weiji.R;
 
 import java.util.ArrayList;
@@ -126,6 +125,7 @@ public class ZhangbenActivity extends AppCompatActivity implements Toolbar.OnMen
                         @Override
                         public void onItemClick(View view, int position) {
                             startMoneyActivity(position);
+                            finish();
                         }
                     });
                     rclv_moneylist.setAdapter(moneyAdapter);
@@ -150,6 +150,7 @@ public class ZhangbenActivity extends AppCompatActivity implements Toolbar.OnMen
     public boolean onMenuItemClick(MenuItem item) {
         if(item.getItemId()==R.id.action_add){
             startActivity(new Intent(ZhangbenActivity.this,MoneyActivity.class));
+            finish();
         }
         return false;
     }

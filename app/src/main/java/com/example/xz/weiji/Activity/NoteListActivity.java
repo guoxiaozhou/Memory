@@ -17,14 +17,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xz.weiji.DataTable.Group;
 import com.example.xz.weiji.DataTable.Note;
-import com.example.xz.weiji.Fragment.NoteListFragment;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.View.RecycleViewDivider;
 
@@ -124,6 +122,7 @@ public class NoteListActivity extends AppCompatActivity {
                         public void onItemClick(View view, int position) {
                             //Toast.makeText(context,"点击了"+position,Toast.LENGTH_SHORT).show();
                             startEditActivity(position);
+                            finish();
                         }
 
                     });
@@ -259,7 +258,7 @@ public class NoteListActivity extends AppCompatActivity {
         }
         @Override
         public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            NoteViewHolder noteViewHolder=new NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note1
+            NoteViewHolder noteViewHolder=new NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_notelist
             ,parent,false));
             return noteViewHolder;
         }

@@ -38,8 +38,8 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
 
     private void initView() {
         tv_changeperson = (EditText) findViewById(R.id.tv_changeperson);
-        Intent i = getIntent();
-        tv_changeperson.setText(i.getStringExtra("name"));
+
+        tv_changeperson.setText(BmobUser.getCurrentUser().getUsername());
         btn_changeperson = (Button) findViewById(R.id.btn_changeperson);
         btn_changeperson.setOnClickListener(this);
         toolBar_changeperson = (Toolbar) findViewById(R.id.toolBar_changeperson);
@@ -49,8 +49,6 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(ChangePersonActivity.this,NoteActivity.class);
-                BmobUser user=BmobUser.getCurrentUser();
-                i.putExtra("name",user.getUsername());
                 startActivity(i);
                 finish();
             }
@@ -72,7 +70,7 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onBackPressed() {
        // super.onBackPressed();
-        Intent i=new Intent(ChangePersonActivity.this,NoteActivity.class);
+        Intent i=new Intent(ChangePersonActivity.this,ReFirestpageActivity.class);
         BmobUser user=BmobUser.getCurrentUser();
         i.putExtra("name",user.getUsername());
         startActivity(i);
