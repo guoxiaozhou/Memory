@@ -20,7 +20,7 @@
             android:gravity="center"
             android:layout_height="wrap_content">
             <ImageView
-                android:src="@mipmap/jibiji"
+                android:src="@mipmap/newtwo"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -38,7 +38,7 @@
             android:gravity="center"
             android:layout_height="wrap_content">
             <ImageView
-                android:src="@mipmap/fenlei"
+                android:src="@mipmap/newone"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:src="@mipmap/jizhang"
+                android:src="@mipmap/newthree"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:src="@mipmap/beiwang"
+                android:src="@mipmap/newfive"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:src="@mipmap/daojishi"
+                android:src="@mipmap/newfour"
                 android:layout_width="50dp"
                 android:layout_height="50dp" />
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_height="45dp" />
             <ImageView
                 android:id="@+id/imageview2"
-                android:src="@mipmap/arrow_right"
+                android:src="@mipmap/ic_keyboard_arrow_right_white_24dp"
                 android:layout_alignParentRight="true"
                 android:layout_width="35dp"
                 android:layout_height="45dp" />
@@ -154,7 +154,7 @@
                 android:layout_height="45dp" />
         </RelativeLayout>
         <ImageView
-            android:background="@android:color/darker_gray"
+            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="5dp"/>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    android:background="@mipmap/zhuyebeijing"
+    android:background="@mipmap/newbk"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -56,8 +56,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
-        style="@style/CustomTab"
-        app:tabTextColor="@android:color/darker_gray">
+        app:tabIndicatorHeight="0dp"
+        app:tabBackground="@android:color/transparent">
 
     </android.support.design.widget.TabLayout>
 

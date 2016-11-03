@@ -89,7 +89,7 @@ public class ReFirestpageActivity extends AppCompatActivity {
     private void setTabs(TabLayout tabLayout, LayoutInflater inflater, int[] tabTitlees, int[] tabImgs) {
         for (int i = 0; i < tabImgs.length; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
-            tabLayout.setBackgroundResource(R.mipmap.zhuyetwo);
+           // tabLayout.setBackgroundResource(R.mipmap.zhuyetwo);
             View view = inflater.inflate(R.layout.tab_custom, null);
             tab.setCustomView(view);
 

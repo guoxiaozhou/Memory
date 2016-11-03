@@ -3,31 +3,43 @@
     android:orientation="vertical"
     android:id="@+id/ll_classify_item"
     android:layout_width="match_parent"
-    android:background="@drawable/touch_bg"
-    android:layout_height="match_parent">
+    android:background="@android:color/transparent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/childTo"
+            android:layout_gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="111111"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"/>
 
-    <TextView
-        android:id="@+id/childTo"
-        android:layout_gravity="center_vertical"
-        android:textColor="@android:color/black"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"/>
-    <TextView
-        android:text="1"
-        android:paddingLeft="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="10dp"
-        android:textSize="@dimen/text_date"
-        android:id="@+id/tv_classify_date"
-        android:maxLength="10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:text="111111111"
+            android:paddingLeft="20dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/tv_classify_date"
+            android:maxLength="10"
+            android:textColor="@android:color/holo_green_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
     <ImageView
-        android:src="#CDC9C9"
+        android:src="#5C5C5C"
         android:layout_width="match_parent"
-        android:layout_height="0.8dp" />
+        android:layout_height="0.5dp" />
 </LinearLayout>

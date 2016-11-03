@@ -3,22 +3,15 @@
     xmlns:toolbar="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/newbk"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_blue_light">
+        android:background="#2fffffff">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:paddingLeft="8dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@mipmap/toolbarbk"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -27,7 +20,7 @@
                 android:textSize="18sp"
                 android:textColor="@android:color/white"/>
 
-        </FrameLayout>
+
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
@@ -50,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="吃饭"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -223,7 +216,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="网购"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -394,7 +387,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="收入"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -565,7 +558,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="其他"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
             <LinearLayout

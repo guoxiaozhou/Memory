@@ -18,7 +18,7 @@
 
     <style name="CustomTab" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/darker_gray</item>
-        <item name="tabSelectedTextColor">@android:color/holo_blue_light</item>
+
         <item name="tabBackground">@android:color/transparent</item>
         <item name="tabIndicatorHeight">0dp</item>
     </style>

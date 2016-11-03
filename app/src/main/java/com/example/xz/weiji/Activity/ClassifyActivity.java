@@ -69,12 +69,12 @@ public class ClassifyActivity extends AppCompatActivity implements Toolbar.OnMen
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        Intent i = new Intent(ClassifyActivity.this, ReFirestpageActivity.class);
-        BmobUser user = BmobUser.getCurrentUser();
-        i.putExtra("name", user.getUsername());
-        startActivity(i);
-        finish();
+        super.onBackPressed();
+//        Intent i = new Intent(ClassifyActivity.this, ReFirestpageActivity.class);
+//        BmobUser user = BmobUser.getCurrentUser();
+//        i.putExtra("name", user.getUsername());
+//        startActivity(i);
+//        finish();
     }
 
 

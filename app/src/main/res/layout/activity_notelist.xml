@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/newbk">
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_notelist"
-        android:background="@android:color/holo_blue_light"
+        android:background="#2fffffff"
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="?attr/actionBarSize">
-        <FrameLayout
+        <TextView
+            android:text="笔记"
+            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
-            android:paddingLeft="8dp"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@mipmap/toolbarbk"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="记忆+"
-                android:textSize="18sp"
-                android:textColor="@android:color/white"/>
-
-        </FrameLayout>
-
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_height="wrap_content" />
 
     </android.support.v7.widget.Toolbar>
     <android.support.v4.widget.SwipeRefreshLayout
