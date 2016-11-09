@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xz.weiji.Activity.ClassifyActivity;
+import com.example.xz.weiji.Activity.DaojishiActivity;
 import com.example.xz.weiji.Activity.EditActivity;
 import com.example.xz.weiji.Activity.NoteActivity;
 import com.example.xz.weiji.Activity.NoteListActivity;
@@ -292,6 +293,7 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 startDialog();
                 break;
             case R.id.ll_daojishi:
+                startActivity(new Intent(context,DaojishiActivity.class));
                 break;
             case R.id.rl_allnote:
                 startActivity(new Intent(context,NoteListActivity.class));

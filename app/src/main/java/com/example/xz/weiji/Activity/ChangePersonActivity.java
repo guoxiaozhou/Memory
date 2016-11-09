@@ -48,9 +48,10 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
         toolBar_changeperson.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(ChangePersonActivity.this,NoteActivity.class);
-                startActivity(i);
-                finish();
+//                Intent i=new Intent(ChangePersonActivity.this,ReFirestpageActivity.class);
+//                startActivity(i);
+//                finish();
+                onBackPressed();
             }
         });
     }
@@ -69,12 +70,12 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
     }
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
-        Intent i=new Intent(ChangePersonActivity.this,ReFirestpageActivity.class);
-        BmobUser user=BmobUser.getCurrentUser();
-        i.putExtra("name",user.getUsername());
-        startActivity(i);
-        finish();
+        super.onBackPressed();
+//        Intent i=new Intent(ChangePersonActivity.this,ReFirestpageActivity.class);
+//        BmobUser user=BmobUser.getCurrentUser();
+//        i.putExtra("name",user.getUsername());
+//        startActivity(i);
+//        finish();
     }
     @Override
     public void onClick(View v) {
@@ -94,10 +95,10 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
 
-                Intent t = new Intent(ChangePersonActivity.this, NoteActivity.class);
+                Intent t = new Intent(ChangePersonActivity.this, ReFirestpageActivity.class);
                // t.putExtra("name", newUser.getUsername());
-                finish();
                 startActivity(t);
+                finish();
                 break;
         }
     }

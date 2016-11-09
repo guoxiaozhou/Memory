@@ -65,7 +65,6 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rl_changeperson:
                 startActivity(new Intent(context, ChangePersonActivity.class));
-                getActivity().finish();
                 break;
             case R.id.rl_aboutus:
                 break;

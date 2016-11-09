@@ -56,5 +56,6 @@
         </activity>
         <activity android:name=".Activity.NoteListActivity"/>
         <activity android:name=".Activity.ZhangbenActivity"/>
+        <activity android:name=".Activity.DaojishiActivity"/>
     </application>
 </manifest>
