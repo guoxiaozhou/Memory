@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.xz.weiji.View.SlidingButtonView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@android:color/transparent"
+    android:layout_marginBottom="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_height="match_parent"
+        android:layout_width="60dp"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/layout_content"
+        android:text="删 除"
+        android:background="@drawable/btn_click_red_havebackground"
+        android:textColor="#DDFFFFFF"
+        />
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_content"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@android:color/transparent">
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:background="@drawable/circlebackground"
+                android:layout_width="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="10dp" />
+            <TextView
+                android:id="@+id/tv_notetitle"
+                android:textSize="15sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:text="1"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <TextView
+        android:text="1"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/text_date"
+        android:id="@+id/tv_date"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:maxLength="16"
+        android:paddingRight="10dp" />
+<TextView
+    android:id="@+id/tv_note"
+    android:textSize="14sp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:ellipsize="end"
+    android:textColor="@android:color/white"
+    android:lineSpacingExtra="2dp"
+    android:lines="3"
+    android:paddingLeft="10dp"
+    android:paddingBottom="10dp"
+    android:text="1"/>
+
+</LinearLayout>
+    </RelativeLayout>
+</com.example.xz.weiji.View.SlidingButtonView>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/newbk"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto">
+   <android.support.v7.widget.Toolbar
+       android:id="@+id/toolBar"
+       android:background="#2fffffff"
+       android:layout_width="match_parent"
+       android:layout_height="?attr/actionBarSize">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:text="编辑"
+               android:textSize="18sp"
+               android:textColor="@android:color/white"/>
+
+   </android.support.v7.widget.Toolbar>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/et_notetitle"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        toolbar:met_bottomTextSize="15sp"
+        android:layout_marginTop="10dp"
+        toolbar:met_baseColor="@android:color/white"
+        toolbar:met_floatingLabelText="标题"
+        android:hint="标题..."
+        toolbar:met_floatingLabelTextSize="15sp"
+        toolbar:met_maxCharacters="8"
+        toolbar:met_floatingLabel="highlight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+<EditText
+    android:gravity="top"
+    android:id="@+id/et_text"
+    android:textColor="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:hint="随便记点儿什么...."
+    android:textSize="14sp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="30dp"
+    android:padding="10dp"
+    android:textColorHint="@android:color/darker_gray"/>
+</LinearLayout>
