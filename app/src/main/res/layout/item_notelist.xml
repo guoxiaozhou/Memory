@@ -1,32 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.xz.weiji.View.SlidingButtonView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:background="@android:color/transparent"
-    android:layout_marginBottom="1dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-    <TextView
-        android:id="@+id/tv_delete"
-        android:layout_height="match_parent"
-        android:layout_width="60dp"
-        android:gravity="center"
-        android:layout_toRightOf="@+id/layout_content"
-        android:text="删 除"
-        android:background="@drawable/btn_click_red_havebackground"
-        android:textColor="#DDFFFFFF"
-        />
 <LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_content"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:id="@+id/ll_item"
+
     android:background="@android:color/transparent">
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
     <RelativeLayout
         android:gravity="center"
         android:layout_width="match_parent"
@@ -82,7 +70,33 @@
     android:paddingLeft="10dp"
     android:paddingBottom="10dp"
     android:text="1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_star"
+        android:background="@android:color/transparent"
+        android:layout_width="80dp"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/star"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_delete"
+        android:background="@android:color/transparent"
+        android:layout_width="80dp"
+        android:gravity="center"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_gravity="center"
+            android:src="@drawable/trash"
+            android:id="@+id/tvDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+    </LinearLayout>
+
+
 
 </LinearLayout>
-    </RelativeLayout>
-</com.example.xz.weiji.View.SlidingButtonView>

@@ -1,19 +1,29 @@
 package com.example.xz.weiji.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.xz.weiji.DataTable.User;
 import com.example.xz.weiji.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.io.File;
+
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.ProgressCallback;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
+import rx.functions.Action1;
 
 /**
  * Created by xz on 2016/9/16.
@@ -24,25 +34,43 @@ public class RegisterActivity extends AppCompatActivity {
     private MaterialEditText rg_password;
     private MaterialEditText rg_email;
     private Button bt_rg;
-    private BmobUser user;
+    private User user;
+    private ProgressDialog dialog;
+    final BmobFile bmobFile=new BmobFile(new File("/system/media/Pre-loaded/Pictures/Picture_H_Nightfall.jpg"));;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initView();
-        user=new BmobUser();
+        user=new User();
         bt_rg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registerUser();
             }
         });
+
+
+        dialog=new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setTitle("上传中...");
+        //dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
+
     }
 
     private void registerUser() {
         user.setUsername(rg_username.getText().toString());
         user.setPassword(rg_password.getText().toString());
         user.setEmail(rg_email.getText().toString());
+
+
+
+        user.setHead(bmobFile);
+
         user.signUp(new SaveListener<BmobUser>() {
             @Override
             public void done(BmobUser bmobUser, BmobException e) {
@@ -60,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
         rg_password=(MaterialEditText)findViewById(R.id.et_rg_password);
         rg_email=(MaterialEditText)findViewById(R.id.et_rg_mail);
         bt_rg=(Button)findViewById(R.id.bt_rg);
+
     }
     @Override
     public void onBackPressed() {

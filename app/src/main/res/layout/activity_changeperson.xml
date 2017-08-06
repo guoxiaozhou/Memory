@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/newbk">
     <android.support.v7.widget.Toolbar
@@ -20,10 +22,10 @@
 
     </android.support.v7.widget.Toolbar>
 <RelativeLayout
+    android:id="@+id/rl_imformation"
     android:orientation="horizontal"
-    android:background="#EDEDED"
     android:layout_below="@id/toolBar_changeperson"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="15dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
@@ -31,8 +33,9 @@
         android:paddingTop="15dp"
         android:layout_gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textSize="20sp"
-        android:paddingBottom="15dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:paddingBottom="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <EditText
@@ -42,12 +45,63 @@
         android:paddingRight="5dp"
         android:text="hahaha "
         android:layout_marginRight="10dp"
+        android:textColor="@android:color/white"
         android:background="@null"
         android:paddingBottom="15dp"
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_line"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/rl_imformation"
+        android:src="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+    <RelativeLayout
+        android:layout_below="@id/iv_line"
+        android:id="@+id/rl_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text=" 头像"
+            android:paddingTop="15dp"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:paddingBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/iv_arrowright"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            app:border_width="1dp"
+            app:border_color="@android:color/white"
+            android:id="@+id/iv_head"
+            android:layout_toLeftOf="@id/iv_arrowright"
+            android:layout_margin="8dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_line1"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/rl_head"
+        android:src="@android:color/darker_gray"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+
     <Button
         android:id="@+id/btn_changeperson"
         android:text="提 交"

@@ -18,6 +18,15 @@
         <item name="tabIndicatorHeight">0dp</item>
     </style>
 
+    <style name="my_dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="dialogstyle">
+        <item name="android:windowEnterAnimation">@animator/dialog_enter</item>
+        <item name="android:windowExitAnimation">@animator/dialog_exit</item>
+    </style>
 
 
     <style name="transparentText" parent="TextAppearance.AppCompat.Small">

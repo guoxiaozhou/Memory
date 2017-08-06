@@ -1,23 +1,43 @@
 package com.example.xz.weiji.Activity;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.xz.weiji.DataTable.User;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.Utils.Utils;
 
+import java.io.File;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by xz on 2016/10/9.
@@ -27,6 +47,11 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
     private EditText tv_changeperson;
     private Button btn_changeperson;
     private Toolbar toolBar_changeperson;
+    String downloadPath;
+    private CircleImageView iv_head;
+    private RelativeLayout rl_head;
+    public static final String SDPath=Environment.getExternalStorageDirectory()+"/bmob/";
+    ProgressDialog progressDialog;
 
     /**
      * @param savedInstanceState
@@ -36,7 +61,17 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_changeperson);
         initView();
+
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        downloadHead();
+    }
+
+
+
 
     private void initView() {
         tv_changeperson = (EditText) findViewById(R.id.tv_changeperson);
@@ -45,8 +80,7 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
         btn_changeperson = (Button) findViewById(R.id.btn_changeperson);
         btn_changeperson.setOnClickListener(this);
         toolBar_changeperson = (Toolbar) findViewById(R.id.toolBar_changeperson);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             toolBar_changeperson.getLayoutParams().height = Utils.getAppBarHeight(this);
             toolBar_changeperson.setPadding(toolBar_changeperson.getPaddingLeft(),
                     Utils.getStatusBarHeight(this),
@@ -64,6 +98,14 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
                 onBackPressed();
             }
         });
+        iv_head = (CircleImageView) findViewById(R.id.iv_head);
+        rl_head = (RelativeLayout) findViewById(R.id.rl_head);
+        rl_head.setOnClickListener(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ,Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
     }
 
     private void submit() {
@@ -78,42 +120,96 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
 
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-//        Intent i=new Intent(ChangePersonActivity.this,ReFirestpageActivity.class);
-//        BmobUser user=BmobUser.getCurrentUser();
-//        i.putExtra("name",user.getUsername());
-//        startActivity(i);
-//        finish();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_changeperson:
                 submit();
                 BmobUser user = BmobUser.getCurrentUser();
-                BmobUser newUser=new BmobUser();
+                BmobUser newUser = new BmobUser();
                 newUser.setUsername(tv_changeperson.getText().toString());
                 newUser.update(user.getObjectId(), new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
-                        if (e == null){
+                        if (e == null) {
                             Toast.makeText(ChangePersonActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                           // Intent t = new Intent(ChangePersonActivity.this, ReFirestpageActivity.class);
+                            // Intent t = new Intent(ChangePersonActivity.this, ReFirestpageActivity.class);
                             // t.putExtra("name", newUser.getUsername());
                             finish();
-                        //    startActivity(t);
+                            //    startActivity(t);
 
 
-                        }
-                        else
+                        } else
                             Toast.makeText(ChangePersonActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
 
 
+
+            case R.id.rl_head:
+                Intent intent1=new Intent(ChangePersonActivity.this,HeadActivity.class);
+                intent1.putExtra("path",downloadPath);
+                startActivity(intent1);
+                break;
         }
     }
+
+    /**
+     * 下载头像
+     */
+    public void downloadHead() {
+        progressDialog = new ProgressDialog(ChangePersonActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Waiting...");
+        progressDialog.setCancelable(true);
+        progressDialog.show();
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.getObject(BmobUser.getCurrentUser().getObjectId(),
+                new QueryListener<User>() {
+                    @Override
+                    public void done(User user, BmobException e) {
+                        if (e == null) {
+                            BmobFile head = user.getHead();
+
+                            File saveFile=new File(Environment.getExternalStorageDirectory()+"/bmob/",
+                                    head.getFilename());
+
+                            Log.i("path", head.getFileUrl());
+                            if (head != null) {
+                                head.download(saveFile,new DownloadFileListener() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null) {
+                                            Log.i("path", s);
+                                            iv_head.setImageURI(Uri.fromFile(new File(s)));
+                                            downloadPath=s;
+                                            progressDialog.dismiss();
+
+                                        }
+                                    }
+
+
+                                    @Override
+                                    public void onProgress(Integer integer, long l) {
+                                         if(integer==100)
+                                             progressDialog.dismiss();
+                                    }
+                                });
+                            }
+                        }
+
+                    }
+
+                });
+
+    }
+
+
 }

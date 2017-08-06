@@ -26,8 +26,10 @@ import com.example.xz.weiji.DataTable.Group;
 import com.example.xz.weiji.DataTable.Note;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.Utils.Utils;
+import com.example.xz.weiji.View.LeftSwipeMenuRecyclerView;
+import com.example.xz.weiji.View.OnItemActionListener;
+import com.example.xz.weiji.View.RVAdapter;
 import com.example.xz.weiji.View.RecycleViewDivider;
-import com.example.xz.weiji.View.SlidingButtonView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class NoteListActivity extends AppCompatActivity {
 
     private Toolbar tb_notelist;
-    private RecyclerView rclv_list;
+    private LeftSwipeMenuRecyclerView rclv_list;
     private SwipeRefreshLayout swipeLayout;
     ArrayList<String> arrayList;
     ArrayList<String> datelist ;
@@ -53,20 +55,14 @@ public class NoteListActivity extends AppCompatActivity {
     ArrayList<Note> noteList ;
     ArrayList<String> groupList;
     BmobUser user;
-    public static int i=0;
-    private NoteAdapter noteAdapter;
+    private RVAdapter noteAdapter;
 
     static Context context;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=NoteListActivity.this;
-
         setContentView(R.layout.activity_notelist);
-        if(i==0) {
-            Toast.makeText(context, "右滑可以删除笔记；长按选择添加至分组（若无分组可先到->分类中添加分组）", Toast.LENGTH_LONG).show();
-            i++;
-        }
         initView();
     }
 
@@ -80,7 +76,7 @@ public class NoteListActivity extends AppCompatActivity {
                     tb_notelist.getPaddingRight(),
                     tb_notelist.getPaddingBottom());
         }
-        rclv_list = (RecyclerView) findViewById(R.id.rclv_list);
+        rclv_list = (LeftSwipeMenuRecyclerView) findViewById(R.id.rclv_list);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
         tb_notelist.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
         //设置标题栏左边按钮点击事件
@@ -148,33 +144,49 @@ public class NoteListActivity extends AppCompatActivity {
 
                     //设置适配器
                     rclv_list.setLayoutManager(new LinearLayoutManager(NoteListActivity.this));
-                    noteAdapter = new NoteAdapter(arrayList, datelist, titlelist);
-                    noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+                    noteAdapter = new RVAdapter(NoteListActivity.this,arrayList, datelist, titlelist);
+//                    noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+//                        @Override
+//                        public void onItemClick(View view, int position) {
+//                            //Toast.makeText(context,"点击了"+position,Toast.LENGTH_SHORT).show();
+//                            startEditActivity(position);
+//                           // finish();
+//                        }
+//
+//                    });
+//                    //列表设置长按点击效果
+//                    noteAdapter.setOnItemLongClickListener(new NoteAdapter.OnItemLongClickListener() {
+//
+//                        @Override
+//                        public void onItemLongClick(View view, int position) {
+//                            queryGroups(position);
+//                        }
+//                    });
+//                    noteAdapter.setmIDeleteBtnClickListener(new NoteAdapter.IonSlidingViewClickListener() {
+//                        @Override
+//                        public void onDeleteBtnCilck(View view, int position) {
+//                          //  Toast.makeText(context,"删除了"+position,Toast.LENGTH_SHORT).show();
+//                            deleteNote(position);
+//                        }
+//                    });
+
+                    rclv_list.setAdapter(noteAdapter);
+                    rclv_list.setOnItemActionListener(new OnItemActionListener() {
                         @Override
-                        public void onItemClick(View view, int position) {
-                            //Toast.makeText(context,"点击了"+position,Toast.LENGTH_SHORT).show();
+                        public void OnItemClick(int position) {
                             startEditActivity(position);
-                           // finish();
                         }
 
-                    });
-                    //列表设置长按点击效果
-                    noteAdapter.setOnItemLongClickListener(new NoteAdapter.OnItemLongClickListener() {
-
                         @Override
-                        public void onItemLongClick(View view, int position) {
+                        public void OnItemTop(int position) {
                             queryGroups(position);
                         }
-                    });
-                    noteAdapter.setmIDeleteBtnClickListener(new NoteAdapter.IonSlidingViewClickListener() {
+
                         @Override
-                        public void onDeleteBtnCilck(View view, int position) {
-                          //  Toast.makeText(context,"删除了"+position,Toast.LENGTH_SHORT).show();
+                        public void OnItemDelete(int position) {
                             deleteNote(position);
                         }
                     });
-
-                    rclv_list.setAdapter(noteAdapter);
                     rclv_list.addItemDecoration(new RecycleViewDivider(NoteListActivity.this));
                     rclv_list.setItemAnimator(new DefaultItemAnimator());
                     swipeLayout.setRefreshing(false);
@@ -186,15 +198,19 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     public void deleteNote(final int position){
+
+
         Note note = noteList.get(position);
         note.delete(new UpdateListener() {
             @Override
             public void done(BmobException e) {
                 if (e == null) {
                     Toast.makeText(context, "删除笔记成功", Toast.LENGTH_SHORT).show();
-
+                    arrayList.remove(position);
+                    datelist.remove(position);
+                    titlelist.remove(position);
                     noteAdapter.notifyItemRemoved(position);
-                    onRefresh();
+                   // onRefresh();
 
 
                 } else
@@ -223,14 +239,7 @@ public class NoteListActivity extends AppCompatActivity {
                         groupString[i] = groupList.get(i);
                         Log.i("各分组", groupString[i]);
                     }
-                    new AlertDialog.Builder(context).setItems(new String[]{"删除", "添加至"}, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case 0:
-                                    deleteNote(position);
-                                    break;
-                                case 1:
+
                                     new AlertDialog.Builder(context).setTitle("添加至")
                                             .setItems(groupString, new DialogInterface.OnClickListener() {
                                                 @Override
@@ -250,10 +259,7 @@ public class NoteListActivity extends AppCompatActivity {
                                                 }
                                             })
                                             .show();
-                                    break;
-                            }
-                        }
-                    }).show();
+
 
                     // Toast.makeText(context, "长按成功", Toast.LENGTH_SHORT).show();
                 } else {
@@ -289,111 +295,80 @@ public class NoteListActivity extends AppCompatActivity {
         }
     }
 
-    public static class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder>{
-        private ArrayList<String> noteList;
-        private ArrayList<String> dateList;
-        private ArrayList<String> titleList;
-        private OnItemClickListener onItemClickListener;
-        private OnItemLongClickListener onItemLongClickListener;
-        private IonSlidingViewClickListener mIDeleteBtnClickListener;
-        public NoteAdapter(ArrayList<String> noteList, ArrayList<String> dateList, ArrayList<String> titleList) {
-            this.noteList = noteList;
-            this.dateList = dateList;
-            this.titleList = titleList;
-        }
-
-        public interface IonSlidingViewClickListener {
-          //  void onItemClick(View view, int position);
-
-            void onDeleteBtnCilck(View view, int position);
-        }
-
-        public void setmIDeleteBtnClickListener(IonSlidingViewClickListener iDeleteBtnClickListener){
-            mIDeleteBtnClickListener=iDeleteBtnClickListener;
-        }
-
-        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-            this.onItemClickListener = onItemClickListener;
-        }
-
-        public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
-            this.onItemLongClickListener = onItemLongClickListener;
-        }
-        public interface OnItemClickListener {
-            void onItemClick(View view, int position);
-        }
-
-        public interface OnItemLongClickListener {
-            void onItemLongClick(View view, int position);
-        }
-        @Override
-        public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            NoteViewHolder noteViewHolder=new NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_notelist
-            ,parent,false));
-            return noteViewHolder;
-        }
-        @Override
-        public void onBindViewHolder(final NoteViewHolder holder, final int position) {
-            holder.linearLayout.getLayoutParams().width= Utils.getScreenWidth(context);
-              holder.title.setText(titleList.get(position));
-            holder.note.setText(noteList.get(position));
-            holder.date.setText(dateList.get(position));
-            if (onItemClickListener != null) {
-                holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(holder.slidingButtonView.getScrollX()>0)
-                            holder.slidingButtonView.smoothScrollTo(0,0);
-                        else
-                            onItemClickListener.onItemClick(holder.itemView,position);
-
-
-                    }
-                });
-            }
-            if (onItemLongClickListener != null) {
-                holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        onItemLongClickListener.onItemLongClick(holder.itemView, position);
-                        return true;
-                    }
-                });
-            }
-            if(mIDeleteBtnClickListener!=null){
-                holder.btn_Delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int n=holder.getLayoutPosition();
-                        mIDeleteBtnClickListener.onDeleteBtnCilck(v,n);
-                    }
-                });
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return noteList.size();
-        }
-
-        class NoteViewHolder extends RecyclerView.ViewHolder{
-            TextView btn_Delete;
-            TextView title;
-            TextView note;
-            TextView date;
-            LinearLayout linearLayout;
-            SlidingButtonView slidingButtonView;
-            public NoteViewHolder(View itemView) {
-                super(itemView);
-                title=(TextView)itemView.findViewById(R.id.tv_notetitle);
-                note=(TextView)itemView.findViewById(R.id.tv_note);
-                date=(TextView)itemView.findViewById(R.id.tv_date);
-                linearLayout=(LinearLayout)itemView.findViewById(R.id.layout_content);
-                slidingButtonView=(SlidingButtonView) itemView;
-                btn_Delete=(TextView)itemView.findViewById(R.id.tv_delete);
-            }
-        }
-    }
+//    public static class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder>{
+//        private ArrayList<String> noteList;
+//        private ArrayList<String> dateList;
+//        private ArrayList<String> titleList;
+//        private OnItemClickListener onItemClickListener;
+//        private OnItemLongClickListener onItemLongClickListener;
+//        public NoteAdapter(ArrayList<String> noteList, ArrayList<String> dateList, ArrayList<String> titleList) {
+//            this.noteList = noteList;
+//            this.dateList = dateList;
+//            this.titleList = titleList;
+//        }
+//        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+//            this.onItemClickListener = onItemClickListener;
+//        }
+//
+//        public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+//            this.onItemLongClickListener = onItemLongClickListener;
+//        }
+//        public interface OnItemClickListener {
+//            void onItemClick(View view, int position);
+//        }
+//
+//        public interface OnItemLongClickListener {
+//            void onItemLongClick(View view, int position);
+//        }
+//        @Override
+//        public NoteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            NoteViewHolder noteViewHolder=new NoteViewHolder(LayoutInflater.from(context).inflate(R.layout.item_notelist
+//                    ,parent,false));
+//            return noteViewHolder;
+//        }
+//        @Override
+//        public void onBindViewHolder(final NoteViewHolder holder, final int position) {
+//            holder.title.setText(titleList.get(position));
+//            holder.note.setText(noteList.get(position));
+//            holder.date.setText(dateList.get(position));
+//            if (onItemClickListener != null) {
+//                holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        onItemClickListener.onItemClick(holder.itemView,position);
+//                    }
+//                });
+//            }
+//            if (onItemLongClickListener != null) {
+//                holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        onItemLongClickListener.onItemLongClick(holder.itemView, position);
+//                        return true;
+//                    }
+//                });
+//            }
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return noteList.size();
+//        }
+//
+//        class NoteViewHolder extends RecyclerView.ViewHolder{
+//            TextView title;
+//            TextView note;
+//            TextView date;
+//            LinearLayout linearLayout;
+//            public NoteViewHolder(View itemView) {
+//                super(itemView);
+//                title=(TextView)itemView.findViewById(R.id.tv_notetitle);
+//                note=(TextView)itemView.findViewById(R.id.tv_note);
+//                date=(TextView)itemView.findViewById(R.id.tv_date);
+//                linearLayout=(LinearLayout)itemView.findViewById(R.id.ll_item);
+//            }
+//        }
+//    }
 
 
 }

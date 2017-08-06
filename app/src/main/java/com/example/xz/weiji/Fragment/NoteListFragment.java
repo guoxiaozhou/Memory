@@ -75,7 +75,6 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private LinearLayout ll_daojishi;
     private Dialog dialog;
     private RelativeLayout rl_allnote;
-    private boolean isRefresh=false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,27 +88,6 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onResume() {
         super.onResume();
-        if(isRefresh)
-            onRefresh();
-      //  Toast.makeText(context,"onResume刷新",Toast.LENGTH_SHORT).show();
-        isRefresh=true;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("onCreateView", "执行了");
-        view = inflater.inflate(R.layout.fragment_shouye, container, false);
-        initView(view);
-        return view;
-    }
-
-    private void initView(View view) {
-        user = BmobUser.getCurrentUser();
-        //初始化各控件
-        Log.i("initView", "执行了");
-        list_view = (RecyclerView) view.findViewById(R.id.list_view);
-        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeLayout);
         swipeLayout.setColorSchemeResources(R.color.blue);
         swipeLayout.post(new Runnable() {
             @Override
@@ -131,6 +109,24 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
 
         onRefresh();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i("onCreateView", "执行了");
+        view = inflater.inflate(R.layout.fragment_shouye, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        user = BmobUser.getCurrentUser();
+        //初始化各控件
+        Log.i("initView", "执行了");
+        list_view = (RecyclerView) view.findViewById(R.id.list_view);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeLayout);
+
         ll_jibiji = (LinearLayout) view.findViewById(R.id.ll_jibiji);
         ll_jibiji.setOnClickListener(this);
         ll_fenlei = (LinearLayout) view.findViewById(R.id.ll_fenlei);
@@ -190,7 +186,6 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
 //                            queryGroups(position);
 //                        }
 //                    });
-
                     list_view.setAdapter(listAdapter);
                     list_view.addItemDecoration(new RecycleViewDivider(context));
                     list_view.setItemAnimator(new DefaultItemAnimator());

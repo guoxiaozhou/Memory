@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.xz.weiji.DataTable.User;
 import com.example.xz.weiji.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private MaterialEditText lg_username;
     private MaterialEditText lg_password;
     private Button bt_login;
-    private BmobUser user;
+    private User user;
     private TextView tv_lg_rg;
     private BmobUser bmobUser;
     private ProgressDialog progressDialog;
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void loginUser() {
-        user = new BmobUser();
+        user = new User();
         user.setUsername(lg_username.getText().toString());
         user.setPassword(lg_password.getText().toString());
         user.login(new SaveListener<BmobUser>() {

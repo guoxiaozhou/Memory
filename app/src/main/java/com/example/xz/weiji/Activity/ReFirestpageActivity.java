@@ -1,7 +1,10 @@
 package com.example.xz.weiji.Activity;
 
+import android.app.ProgressDialog;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,12 +21,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.xz.weiji.DataTable.User;
 import com.example.xz.weiji.Fragment.MyFragment;
 import com.example.xz.weiji.Fragment.NoteListFragment;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.Utils.Utils;
 
+import java.io.File;
+
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.QueryListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by xz on 2016/10/28.
@@ -44,6 +56,7 @@ public class ReFirestpageActivity extends AppCompatActivity {
     //Tab数目
     private final int COUNT = TAB_TITLES.length;
     private TextView tv_user;
+    private CircleImageView mIvFirstpageHead;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,15 +67,14 @@ public class ReFirestpageActivity extends AppCompatActivity {
 
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             toolbar.getLayoutParams().height = Utils.getAppBarHeight(this);
             toolbar.setPadding(toolbar.getPaddingLeft(),
                     Utils.getStatusBarHeight(this),
                     toolbar.getPaddingRight(),
                     toolbar.getPaddingBottom());
         }
-     //   drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //   drawer_layout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //  toolbar.setTitle("记忆+");
         //  toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
 //        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -90,10 +102,17 @@ public class ReFirestpageActivity extends AppCompatActivity {
 
 
         tv_user = (TextView) findViewById(R.id.tv_user);
-        Log.i("空指针值：",BmobUser.getCurrentUser().getTableName());
-        tv_user.setText(BmobUser.getCurrentUser().getUsername());
+        Log.i("空指针值：", BmobUser.getCurrentUser().getTableName());
+
+        mIvFirstpageHead = (CircleImageView) findViewById(R.id.iv_firstpage_head);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        downloadHead();
+        tv_user.setText(BmobUser.getCurrentUser().getUsername());
+    }
 
     /**
      * @description: 设置添加Tab
@@ -101,7 +120,7 @@ public class ReFirestpageActivity extends AppCompatActivity {
     private void setTabs(TabLayout tabLayout, LayoutInflater inflater, int[] tabTitlees, int[] tabImgs) {
         for (int i = 0; i < tabImgs.length; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
-           // tabLayout.setBackgroundResource(R.mipmap.zhuyetwo);
+            // tabLayout.setBackgroundResource(R.mipmap.zhuyetwo);
             View view = inflater.inflate(R.layout.tab_custom, null);
             tab.setCustomView(view);
 
@@ -129,5 +148,50 @@ public class ReFirestpageActivity extends AppCompatActivity {
         public int getCount() {
             return COUNT;
         }
+    }
+
+    public void downloadHead() {
+//        final ProgressDialog progressDialog = new ProgressDialog(ReFirestpageActivity.this);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressDialog.setMessage("Waiting...");
+//        progressDialog.setCancelable(true);
+//        //progressDialog.show();
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.getObject(BmobUser.getCurrentUser().getObjectId(),
+                new QueryListener<User>() {
+                    @Override
+                    public void done(User user, BmobException e) {
+                        if (e == null) {
+                            BmobFile head = user.getHead();
+
+                            File saveFile=new File(Environment.getExternalStorageDirectory()+"/bmob/",
+                                    head.getFilename());
+
+                            Log.i("path", head.getFileUrl());
+                            if (head != null) {
+                                head.download(saveFile,new DownloadFileListener() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if (e == null) {
+                                            Log.i("path", s);
+                                            mIvFirstpageHead.setImageURI(Uri.fromFile(new File(s)));
+                                          //  progressDialog.dismiss();
+
+                                        }
+                                    }
+
+
+                                    @Override
+                                    public void onProgress(Integer integer, long l) {
+                                          //  progressDialog.dismiss();
+                                    }
+                                });
+                            }
+                        }
+
+                    }
+
+                });
+
     }
 }
