@@ -101,7 +101,6 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        onRefresh();
                         swipeLayout.setRefreshing(false);
                     }
                 }, 1000);

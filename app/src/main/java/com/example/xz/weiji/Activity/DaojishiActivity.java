@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,8 +31,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.xz.weiji.DataTable.Daojishi;
+import com.example.xz.weiji.DataTable.Note;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.Utils.Utils;
+import com.example.xz.weiji.View.LeftSwipeMenuRecyclerView;
+import com.example.xz.weiji.View.OnItemActionListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +49,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by xz on 2016/11/6.
@@ -50,7 +57,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
     private Toolbar tb_daojishi;
-    private RecyclerView rclv_mdaojishilist;
+    private LeftSwipeMenuRecyclerView rclv_mdaojishilist;
     private SwipeRefreshLayout swipeLayout;
     private EditText et_daojishi_text;
     private DatePicker datepicker;
@@ -66,6 +73,7 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
     private List<String> text1list;
     private List<String> text2list;
     private List<String> text3list;
+    private List<Daojishi> daojishilist;
     private DaojishiAdapter daojishiAdapter;
     private boolean isResume=false;
    // private ProgressDialog progressDialog;
@@ -82,7 +90,7 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
 
     private void initView() {
         tb_daojishi = (Toolbar) findViewById(R.id.tb_daojishi);
-        rclv_mdaojishilist = (RecyclerView) findViewById(R.id.rclv_mdaojishilist);
+        rclv_mdaojishilist = (LeftSwipeMenuRecyclerView) findViewById(R.id.rclv_mdaojishilist);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
 
         tb_daojishi.inflateMenu(R.menu.menu_main);
@@ -96,6 +104,17 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
                     tb_daojishi.getPaddingBottom());
         }
 
+
+
+//        progressDialog = new ProgressDialog(context);
+//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressDialog.setMessage("正在登陆");
+//        progressDialog.setCancelable(true);
+
+
+    }
+
+    private void onRefresh() {
         swipeLayout.setColorSchemeResources(R.color.blue);
         swipeLayout.post(new Runnable() {
             @Override
@@ -119,18 +138,10 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
 
         user = BmobUser.getCurrentUser();
 
-//        progressDialog = new ProgressDialog(context);
-//        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        progressDialog.setMessage("正在登陆");
-//        progressDialog.setCancelable(true);
-
-        onRefresh();
-    }
-
-    private void onRefresh() {
         text1list=new ArrayList<String>();
         text2list=new ArrayList<String>();
         text3list=new ArrayList<String>();
+        daojishilist=new ArrayList<Daojishi>();
         BmobQuery<Daojishi> query=new BmobQuery<Daojishi>();
         query.addWhereEqualTo("user",user.getObjectId());
         query.findObjects(new FindListener<Daojishi>() {
@@ -141,15 +152,58 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
                         text1list.add(daojishi.getText());
                         text2list.add(getDay(daojishi.getLaterdate()));
                         text3list.add(daojishi.getLaterdate());
+                        daojishilist.add(daojishi);
                     }
+                    rclv_mdaojishilist.setItemAnimator(new DefaultItemAnimator());
                     rclv_mdaojishilist.setLayoutManager(new GridLayoutManager(context,2));
                     daojishiAdapter=new DaojishiAdapter(text1list,text2list,text3list);
                     rclv_mdaojishilist.setAdapter(daojishiAdapter);
+                    rclv_mdaojishilist.setOnItemActionListener(new OnItemActionListener() {
+                        @Override
+                        public void OnItemClick(int position) {
+                            Toast.makeText(DaojishiActivity.this,"点击了倒计日",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void OnItemTop(int position) {
+
+                        }
+
+                        @Override
+                        public void OnItemDelete(int position) {
+                            deleteDaojiri(position);
+                             //Toast.makeText(DaojishiActivity.this,"点击了删除按钮",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     swipeLayout.setRefreshing(false);
                    // Toast.makeText(context, "调用了onRefresh方法", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, "查询失败", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    //删除倒计日
+    public void deleteDaojiri(final int position){
+
+
+        Daojishi daojishi = daojishilist.get(position);
+        daojishi.delete(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                    text1list.remove(position);
+                    text2list.remove(position);
+                    text3list.remove(position);
+
+                    daojishiAdapter.notifyItemRemoved(position);
+
+
+
+                } else
+                    Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -168,6 +222,13 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
             datepicker.setMinDate(System.currentTimeMillis()-1000);
             button.setOnClickListener(this);
             dialog=new AlertDialog.Builder(DaojishiActivity.this).setView(view).show();
+
+            WindowManager.LayoutParams layoutParams=dialog.getWindow().getAttributes();
+            layoutParams.width= LinearLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.height= LinearLayout.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setAttributes(layoutParams);
+            Window window=dialog.getWindow();
+            window.setWindowAnimations(R.style.mydialog);
 
 
             Calendar calendar = Calendar.getInstance();
@@ -223,23 +284,23 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
                public void done(String s, BmobException e) {
                    if(e==null){
                        Toast.makeText(DaojishiActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-                   }else
+                       dialog.dismiss();
+                       onResume();
+                   }else {
                        Toast.makeText(DaojishiActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+                       dialog.dismiss();
+                   }
                }
            });
 
-         dialog.dismiss();
-            onResume();
+
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(isResume){
-            onRefresh();
-
-        }
+        onRefresh();
     }
 
 
@@ -268,7 +329,7 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
         return day;
     }
 
-    public static class DaojishiAdapter extends RecyclerView.Adapter<DaojishiAdapter.DaojishiViewHolder>{
+    public  class DaojishiAdapter extends RecyclerView.Adapter<DaojishiAdapter.DaojishiViewHolder>{
         private List<String> text1list;
         private List<String> text2list;
         private List<String> text3list;
@@ -299,18 +360,21 @@ public class DaojishiActivity extends AppCompatActivity implements Toolbar.OnMen
             return text1list.size();
         }
 
-        class DaojishiViewHolder extends RecyclerView.ViewHolder{
+        public class DaojishiViewHolder extends RecyclerView.ViewHolder{
             TextView text1;
             TextView text2;
             TextView text3;
-            LinearLayout linearLayout;
+            public LinearLayout linearLayout;
+            public LinearLayout ll_delete;
+            public LinearLayout ll_star;
             public DaojishiViewHolder(View itemView) {
                 super(itemView);
                 text1=(TextView)itemView.findViewById(R.id.tv_daojishi_one);
                 text2=(TextView)itemView.findViewById(R.id.tv_daojishi_two);
                 text3=(TextView)itemView.findViewById(R.id.tv_daojishi_three);
                 linearLayout=(LinearLayout)itemView.findViewById(R.id.ll_daojishi_listitem);
-
+                ll_delete=(LinearLayout)itemView.findViewById(R.id.ll__daojishi_delete);
+                ll_star=(LinearLayout)itemView.findViewById(R.id.ll_daojishi_star);
             }
         }
     }

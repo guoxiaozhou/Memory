@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         dialog=new ProgressDialog(this);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setTitle("上传中...");
-        //dialog.setCancelable(false);
+        //dialog_out.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 

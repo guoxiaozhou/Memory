@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
+import com.example.xz.weiji.Activity.DaojishiActivity;
+
 /**
  * Created by Administrator on 2016/8/16.
  */
@@ -82,15 +84,33 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                     if (view == null) {
                         return false;
                     }
+                    String s=view.toString();
+                    String string=s.substring(s.lastIndexOf("/")+1,s.lastIndexOf("/")+8);
+                    Log.i("View","string为"+string+";");
                     //获得这个view的ViewHolder
-                    RVAdapter.Holder holder = (RVAdapter.Holder) getChildViewHolder(view);
-                    //获得这个view的position
-                    mPosition = holder.getAdapterPosition();
-                    //获得这个view的整个布局
-                    mItemLayout = holder.llLayout;
+                    if(string.equals("ll_item")){
+                        RVAdapter.Holder holder = (RVAdapter.Holder) getChildViewHolder(view);
+                        //获得这个view的position
+                        mPosition = holder.getAdapterPosition();
+                        //获得这个view的整个布局
+                        mItemLayout = holder.llLayout;
 
-                    llDelete=holder.llDelete;
-                    llStar=holder.llStar;
+                        llDelete=holder.llDelete;
+                        llStar=holder.llStar;
+                    }else {
+                       DaojishiActivity.DaojishiAdapter.DaojishiViewHolder holder
+                               =(DaojishiActivity.DaojishiAdapter.DaojishiViewHolder)getChildViewHolder(view);
+                        //获得这个view的position
+                        mPosition = holder.getAdapterPosition();
+                        //获得这个view的整个布局
+                        mItemLayout = holder.linearLayout;
+
+                        llDelete=holder.ll_delete;
+                        llStar=holder.ll_star;
+                    }
+
+
+
 //                    //获得这个view的删除按钮
 //                    tvDelete = holder.tvDelete;
 //                    //这个view的整个置顶按钮

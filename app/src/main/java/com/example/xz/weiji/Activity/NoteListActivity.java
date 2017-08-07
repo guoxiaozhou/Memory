@@ -143,6 +143,7 @@ public class NoteListActivity extends AppCompatActivity {
                     }
 
                     //设置适配器
+                    rclv_list.setItemAnimator(new DefaultItemAnimator());
                     rclv_list.setLayoutManager(new LinearLayoutManager(NoteListActivity.this));
                     noteAdapter = new RVAdapter(NoteListActivity.this,arrayList, datelist, titlelist);
 //                    noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {

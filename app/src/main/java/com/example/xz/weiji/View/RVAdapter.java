@@ -57,6 +57,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.Holder> {
 
     class Holder extends RecyclerView.ViewHolder {
 
+        private TextView text1;
+        private TextView text2;
+        private TextView text3;
+
         public LinearLayout llLayout;
         public LinearLayout llDelete;
         public LinearLayout llStar;
@@ -72,6 +76,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.Holder> {
             llLayout= (LinearLayout) itemView.findViewById(R.id.ll_item);
             llDelete=(LinearLayout)itemView.findViewById(R.id.ll_delete);
             llStar=(LinearLayout)itemView.findViewById(R.id.ll_star);
+
         }
     }
 }

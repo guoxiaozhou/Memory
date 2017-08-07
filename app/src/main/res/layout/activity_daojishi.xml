@@ -26,9 +26,8 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
+        <com.example.xz.weiji.View.LeftSwipeMenuRecyclerView
             android:id="@+id/rclv_mdaojishilist"
-            android:background="@drawable/linearlayout_daojishi_border"
             android:layout_marginBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

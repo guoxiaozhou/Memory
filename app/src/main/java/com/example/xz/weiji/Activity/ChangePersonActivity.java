@@ -198,8 +198,7 @@ public class ChangePersonActivity extends AppCompatActivity implements View.OnCl
 
                                     @Override
                                     public void onProgress(Integer integer, long l) {
-                                         if(integer==100)
-                                             progressDialog.dismiss();
+
                                     }
                                 });
                             }
