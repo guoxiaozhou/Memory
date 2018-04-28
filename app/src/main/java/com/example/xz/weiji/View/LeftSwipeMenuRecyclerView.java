@@ -151,7 +151,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 //计算偏移量
                 int dx = mLastX - x;
                 int dy = mLastY - y;
-                //当前滑动的x
+                //上一点滑动的x
                 int scrollx = mItemLayout.getScrollX();
 
                 if (Math.abs(dx) > Math.abs(dy)) {
@@ -193,6 +193,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
 
                 //等一下要移动的距离
                 int deltaX = 0;
+                //手指抬起来后的偏移位置
                 int upScrollx = mItemLayout.getScrollX();
                 //滑动距离大于1/2menu长度就自动展开，否则就关掉
                 if (upScrollx >= mMaxLength / 2) {

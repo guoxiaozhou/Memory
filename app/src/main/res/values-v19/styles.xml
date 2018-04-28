@@ -13,6 +13,5 @@
         <item name="colorPrimary">@android:color/holo_blue_light</item>
         <item name="colorPrimaryDark">#4F94CD</item>
         <item name="colorAccent">#4F94CD</item>
-
     </style>
 </resources>

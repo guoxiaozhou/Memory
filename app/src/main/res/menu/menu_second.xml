@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.EditActivity">
       <item
+          android:title="@string/action_addimage"
+          android:id="@+id/action_addImage"
+          android:icon="@mipmap/addimage"
+          android:orderInCategory="60"
+          app:showAsAction="ifRoom"/>
+      <item
           android:title="@string/action_ok"
           android:id="@+id/action_ok"
           android:icon="@mipmap/ic_done_white_24dp"

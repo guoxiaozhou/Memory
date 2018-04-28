@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Memory-develop.iml" filepath="$PROJECT_DIR$/Memory-develop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Memory.iml" filepath="$PROJECT_DIR$/Memory.iml" />
+      <module fileurl="file://F:\AndroidProject\Memory\Memory-develop.iml" filepath="F:\AndroidProject\Memory\Memory-develop.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myapplication/myapplication.iml" filepath="$PROJECT_DIR$/myapplication/myapplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xrichtext/xrichtext.iml" filepath="$PROJECT_DIR$/xrichtext/xrichtext.iml" />
     </modules>
   </component>
 </project>

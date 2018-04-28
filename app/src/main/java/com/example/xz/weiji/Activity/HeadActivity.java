@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -77,7 +78,11 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
         }
         Intent intent = getIntent();
         String downloadPath = intent.getStringExtra("path");
-        iv_head.setImageURI(Uri.fromFile(new File(downloadPath)));
+        if(TextUtils.isEmpty(downloadPath))
+            iv_head.setImageResource(R.mipmap.icon);
+        else
+            iv_head.setImageURI(Uri.fromFile(new File(downloadPath)));
+
 
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
@@ -208,7 +213,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
     private void uploadHead(File file){
 
         progressDialog = new ProgressDialog(HeadActivity.this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progressDialog.setMessage("上传中...");
         progressDialog.setCancelable(true);
         progressDialog.show();
@@ -251,7 +256,7 @@ public class HeadActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onProgress(Integer value) {
                 Log.i("path", value + "");
-
+                progressDialog.setProgress(value);
             }
         });
     }

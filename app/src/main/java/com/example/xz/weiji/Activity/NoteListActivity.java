@@ -49,10 +49,10 @@ public class NoteListActivity extends AppCompatActivity {
     private Toolbar tb_notelist;
     private LeftSwipeMenuRecyclerView rclv_list;
     private SwipeRefreshLayout swipeLayout;
-    ArrayList<String> arrayList;
-    ArrayList<String> datelist ;
-    ArrayList<String> titlelist;
-    ArrayList<Note> noteList ;
+    ArrayList<String> arrayList=new ArrayList<String>();
+    ArrayList<String> datelist=new ArrayList<String>() ;
+    ArrayList<String> titlelist=new ArrayList<String>();
+    ArrayList<Note> noteList =new ArrayList<Note>();
     ArrayList<String> groupList;
     BmobUser user;
     private RVAdapter noteAdapter;
@@ -118,10 +118,7 @@ public class NoteListActivity extends AppCompatActivity {
 
 
     private void onRefresh() {
-        arrayList = new ArrayList<String>();
-        datelist = new ArrayList<String>();
-        titlelist = new ArrayList<String>();
-        noteList= new ArrayList<Note>();
+
         BmobQuery<Note> query = new BmobQuery<Note>();
         user=BmobUser.getCurrentUser();
         query.addWhereEqualTo("author", user.getObjectId());
@@ -289,12 +286,22 @@ public class NoteListActivity extends AppCompatActivity {
         if(requestCode==0x11&&resultCode==0x11){
          //   Toast.makeText(NoteListActivity.this,"执行了onActivityResult",Toast.LENGTH_SHORT).show();
 
-
-
+            swipeLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeLayout.setRefreshing(true);
+                }
+            });
+            arrayList.clear();
+            datelist.clear();
+            titlelist.clear();
+            noteList.clear();
             onRefresh();
             //noteAdapter.notifyDataSetChanged();
         }
     }
+
+
 
 //    public static class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder>{
 //        private ArrayList<String> noteList;

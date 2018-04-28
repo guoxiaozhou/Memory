@@ -35,8 +35,6 @@ public class RegisterActivity extends AppCompatActivity {
     private MaterialEditText rg_email;
     private Button bt_rg;
     private User user;
-    private ProgressDialog dialog;
-    final BmobFile bmobFile=new BmobFile(new File("/system/media/Pre-loaded/Pictures/Picture_H_Nightfall.jpg"));;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
 
-        dialog=new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.setTitle("上传中...");
-        //dialog_out.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+
 
 
 
@@ -69,13 +62,12 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        user.setHead(bmobFile);
 
         user.signUp(new SaveListener<BmobUser>() {
             @Override
             public void done(BmobUser bmobUser, BmobException e) {
                 if(e==null) {
-                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "注册成功  点击返回即可登陆", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(RegisterActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }

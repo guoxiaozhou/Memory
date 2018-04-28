@@ -23,7 +23,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp" />
         <TextView
-            android:text="每月账单"
+            android:text="知乎新闻"
             android:layout_toRightOf="@id/img_eachmonth"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"

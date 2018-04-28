@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="Zhihu"></dbname>
+    <version value="6"></version>
+
+    <list>
+        <mapping class="example.xz.com.myapplication.Data.TopStoryModel"></mapping>
+        <mapping class="example.xz.com.myapplication.Data.StoryModel"></mapping>
+    </list>
+</litepal>

@@ -1,5 +1,6 @@
 package com.example.xz.weiji.Activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Build;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -65,6 +67,8 @@ public class ReFirestpageActivity extends AppCompatActivity {
         initView();
     }
 
+
+
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -105,6 +109,15 @@ public class ReFirestpageActivity extends AppCompatActivity {
         Log.i("空指针值：", BmobUser.getCurrentUser().getTableName());
 
         mIvFirstpageHead = (CircleImageView) findViewById(R.id.iv_firstpage_head);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            , Manifest.permission.READ_EXTERNAL_STORAGE},
+                    1
+            );
+        }
     }
 
     @Override
@@ -113,6 +126,7 @@ public class ReFirestpageActivity extends AppCompatActivity {
         downloadHead();
         tv_user.setText(BmobUser.getCurrentUser().getUsername());
     }
+
 
     /**
      * @description: 设置添加Tab

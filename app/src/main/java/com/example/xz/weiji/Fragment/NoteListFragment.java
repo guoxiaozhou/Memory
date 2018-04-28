@@ -62,10 +62,10 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private SwipeRefreshLayout swipeLayout;
     //存放笔记信息数据的集合
     private ListAdapter listAdapter;
-    ArrayList<String> arrayList;
-    ArrayList<String> datelist;
-    ArrayList<String> titlelist;
-    ArrayList<Note> noteList;
+    ArrayList<String> arrayList=new ArrayList<String>();
+    ArrayList<String> datelist=new ArrayList<String>();
+    ArrayList<String> titlelist=new ArrayList<String>();
+    ArrayList<Note> noteList=new ArrayList<Note>();
     BmobUser user;
     ArrayList<String> groupList;
     private LinearLayout ll_jibiji;
@@ -130,8 +130,8 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
         ll_jibiji.setOnClickListener(this);
         ll_fenlei = (LinearLayout) view.findViewById(R.id.ll_fenlei);
         ll_fenlei.setOnClickListener(this);
-        ll_zhangben = (LinearLayout) view.findViewById(R.id.ll_zhangben);
-        ll_zhangben.setOnClickListener(this);
+//        ll_zhangben = (LinearLayout) view.findViewById(R.id.ll_zhangben);
+//        ll_zhangben.setOnClickListener(this);
         ll_beiwang = (LinearLayout) view.findViewById(R.id.ll_beiwang);
         ll_beiwang.setOnClickListener(this);
         ll_daojishi = (LinearLayout) view.findViewById(R.id.ll_daojishi);
@@ -141,12 +141,11 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
+
+
     @Override
     public void onRefresh() {
-        arrayList = new ArrayList<String>();
-        datelist = new ArrayList<String>();
-        titlelist = new ArrayList<String>();
-        noteList = new ArrayList<Note>();
+
         BmobQuery<Note> query = new BmobQuery<Note>();
 
         query.addWhereEqualTo("author", user.getObjectId());
@@ -155,6 +154,10 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void done(List<Note> object, BmobException e) {
                 if (e == null) {
                     Log.i("NoteList", object.toString());
+                    noteList.clear();
+                    arrayList.clear();
+                    datelist.clear();
+                    titlelist.clear();
                     //  Toast.makeText(context, "查询成功;共" + object.size() + "条数据", Toast.LENGTH_SHORT).show();
                     for (Note note : object) {
                         Log.i("Note的值为", note.getNote());
@@ -303,10 +306,10 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
                 startActivity(new Intent(context, ClassifyActivity.class));
               //  getActivity().finish();
                 break;
-            case R.id.ll_zhangben:
-                startActivity(new Intent(context, ZhangbenActivity.class));
-                //getActivity().finish();
-                break;
+//            case R.id.ll_zhangben:
+//                startActivity(new Intent(context, ZhangbenActivity.class));
+//                //getActivity().finish();
+//                break;
             case R.id.ll_beiwang:
                 startDialog();
                 break;
@@ -363,6 +366,8 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
     }
+
+
 
     public static class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
         private ArrayList<String> noteList;
