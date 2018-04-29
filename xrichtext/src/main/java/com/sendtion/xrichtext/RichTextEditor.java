@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -30,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by sendtion on 2016/6/24.
@@ -344,7 +346,7 @@ public class RichTextEditor extends ScrollView {
 	 *            EditText显示的文字
 	 */
 	public void addEditTextAtIndex(final int index, CharSequence editStr) {
-		EditText editText2 = createEditText("插入文字", EDIT_PADDING);
+		EditText editText2 = createEditText("", EDIT_PADDING);
 		editText2.setTextColor(getResources().getColor(R.color.white));
 		//判断插入的字符串是否为空，如果没有内容则显示hint提示信息
 		if (editStr != null && editStr.length() > 0){
@@ -365,20 +367,29 @@ public class RichTextEditor extends ScrollView {
 	/**
 	 * 在特定位置添加ImageView
 	 */
-	public void addImageViewAtIndex(final int index, Bitmap bmp, String imagePath) {
+	public void addImageViewAtIndex(final int index,  Bitmap bmp, final String imagePath) {
 		imagePaths.add(imagePath);
 		RelativeLayout imageLayout = createImageLayout();
-		DataImageView imageView = (DataImageView) imageLayout.findViewById(R.id.edit_imageView);
-		Glide.with(getContext()).load(imagePath).crossFade().centerCrop().into(imageView);
-		imageView.setAbsolutePath(imagePath);
-		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);//裁剪剧中
+		final DataImageView imageView = (DataImageView) imageLayout.findViewById(R.id.edit_imageView);
+		Glide.with(getContext()).load(imagePath).asBitmap().centerCrop().into(new SimpleTarget<Bitmap>() {
+			@Override
+			public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+				imageView.setImageBitmap(resource);
+				imageView.setAbsolutePath(imagePath);
+				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+				int imageHeight = allLayout.getWidth() * resource.getHeight() / resource.getWidth();
+				// 调整imageView的高度，根据宽度等比获得高度
+				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+						LayoutParams.MATCH_PARENT, imageHeight);//TODO 固定图片高度500，考虑自定义属性
+				lp.bottomMargin = 10;
+				imageView.setLayoutParams(lp);
+			}
+		});
 
-		// 调整imageView的高度，根据宽度等比获得高度
-		//int imageHeight = allLayout.getWidth() * bmp.getHeight() / bmp.getWidth();
-		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, 1000);//TODO 固定图片高度500，考虑自定义属性
-		lp.bottomMargin = 10;
-		imageView.setLayoutParams(lp);
+
+		//裁剪剧中
+
+
 
 		// onActivityResult无法触发动画，此处post处理
 		allLayout.addView(imageLayout, index);
