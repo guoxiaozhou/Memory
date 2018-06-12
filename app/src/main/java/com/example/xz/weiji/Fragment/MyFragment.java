@@ -14,12 +14,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.xz.weiji.Activity.ChangePersonActivity;
-import com.example.xz.weiji.Activity.LoginActivity;
+import com.example.xz.weiji.AppActivity.ChangePersonActivity;
+import com.example.xz.weiji.AppActivity.LoginActivity;
 import com.example.xz.weiji.R;
 
 import cn.bmob.v3.BmobUser;
-import example.xz.com.myapplication.MainActivity;
 
 /**
  * Created by xz on 2016/10/4.
@@ -67,7 +66,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rl_eachmonth:
-                startActivity(new Intent(context, MainActivity.class));
+                startActivity(new Intent(context, com.example.xz.weiji.MyApplicationActivity.MainActivity.class));
                 break;
             case R.id.rl_changeperson:
                 startActivity(new Intent(context, ChangePersonActivity.class));

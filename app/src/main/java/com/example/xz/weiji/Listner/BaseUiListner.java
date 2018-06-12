@@ -3,11 +3,10 @@ package com.example.xz.weiji.Listner;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.xz.weiji.Activity.LoginActivity;
+import com.example.xz.weiji.AppActivity.LoginActivity;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.tauth.IUiListener;

@@ -7,46 +7,57 @@
     android:layout_margin="20dp"
     android:id="@+id/ll_daojishi_listitem"
     android:background="@drawable/cardview_radious_bottom">
-    <LinearLayout
-        android:orientation="vertical"
-
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="13dp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="13dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-<TextView
-    android:id="@+id/tv_daojishi_one"
-    android:background="@android:color/holo_blue_light"
-    android:textColor="@android:color/white"
-    android:padding="5dp"
-    android:text="15"
-    android:textSize="15sp"
-    android:gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv_daojishi_two"
-        android:textColor="@android:color/black"
-        android:text="15"
-        android:textSize="30sp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tv_daojishi_three"
-        android:background="#E5E5E5"
-        android:padding="5dp"
-        android:text="15"
-        android:textSize="10sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_daojishi_one"
+                android:background="@android:color/holo_blue_light"
+                android:textColor="@android:color/white"
+                android:padding="5dp"
+                android:text="15"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_daojishi_two"
+                android:textColor="@android:color/black"
+                android:text="15"
+                android:textSize="30sp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_daojishi_three"
+                android:background="#E5E5E5"
+                android:padding="5dp"
+                android:text="15"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+<ImageView
+    android:id="@+id/iv_outdate"
+    android:src="@mipmap/outdate"
+    android:layout_centerInParent="true"
+    android:visibility="gone"
+    android:layout_width="100dp"
+    android:layout_height="100dp" />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/ll_daojishi_star"
         android:orientation="vertical"

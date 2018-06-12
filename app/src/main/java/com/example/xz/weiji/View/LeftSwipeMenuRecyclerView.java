@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
-import com.example.xz.weiji.Activity.DaojishiActivity;
+import com.example.xz.weiji.AppActivity.DaojishiActivity;
 
 /**
  * Created by Administrator on 2016/8/16.
@@ -154,7 +154,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 //上一点滑动的x
                 int scrollx = mItemLayout.getScrollX();
 
-                if (Math.abs(dx) > Math.abs(dy)) {
+                if (Math.abs(dx) > Math.abs(dy)&&Math.abs(dx)>10) {
 
                     isItemMoving = true;
                     //超出左边界则始终保持不动
@@ -173,10 +173,11 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                     //菜单随着手指移动
                     mItemLayout.scrollBy(dx, 0);
                 //如果水平移动距离大于30像素的话，recyclerView不会上下滑动
-                }else  if (Math.abs(dx) > 30){
-                    return true;
-                    //触摸事件已经在此处消费，父View不会监听到此事件
                 }
+//                else  if (Math.abs(dx) > 30){
+//                    return true;
+//                    //触摸事件已经在此处消费，父View不会监听到此事件
+//                }
                 //如果菜单正在打开就不能上下滑动
                 if (isItemMoving){
                     mLastX = x;
@@ -204,7 +205,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                     mMenuState = MENU_WILL_CLOSED;
                 }
                 //知道我们为什么不直接把mMenuState赋值为MENU_OPEN或者MENU_CLOSED吗？因为滑动时有时间的，我们可以在滑动完成时才把状态改为已经完成
-                mScroller.startScroll(upScrollx, 0, deltaX, 0, 200);
+                mScroller.startScroll(upScrollx, 0, deltaX, 0, 500);
                 isStartScroll = true;
                 //刷新界面
                 invalidate();

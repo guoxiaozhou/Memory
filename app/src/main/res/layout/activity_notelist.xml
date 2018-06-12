@@ -19,6 +19,7 @@
 
     </android.support.v7.widget.Toolbar>
     <android.support.v4.widget.SwipeRefreshLayout
+        android:layoutAnimation="@anim/layout"
         android:id="@+id/swipeLayout"
         android:orientation="vertical"
         android:background="@android:color/transparent"

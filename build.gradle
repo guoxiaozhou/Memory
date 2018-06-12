@@ -15,14 +15,14 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
 allprojects {
     repositories {
         jcenter()
-        //Bmob的maven仓库地址
+        //Bmob的maven仓库地址--必填
         maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
     }
 }
+
 allprojects {
     repositories {
         jcenter()

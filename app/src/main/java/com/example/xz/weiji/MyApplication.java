@@ -9,6 +9,7 @@ import android.util.Log;
  * Created by Administrator on 2018/4/7.
  */
 
+import com.umeng.commonsdk.UMConfigure;
 import com.yanzhenjie.nohttp.NoHttp;
 
 import org.litepal.LitePal;
@@ -36,6 +37,9 @@ public class MyApplication extends LitePalApplication {
 
         LitePal.initialize(this);
         DBUtil.getInstance();
+
+        //初始化友盟
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "5b021f49f43e48045a0000ac");
 
         //android 7.0调用系统相机报错
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

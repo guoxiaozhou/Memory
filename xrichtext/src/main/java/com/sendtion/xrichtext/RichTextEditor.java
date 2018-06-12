@@ -1,6 +1,11 @@
 package com.sendtion.xrichtext;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.Keyframe;
 import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -32,6 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by sendtion on 2016/6/24.
@@ -83,7 +90,7 @@ public class RichTextEditor extends ScrollView {
 		allLayout = new LinearLayout(context);
 		allLayout.setOrientation(LinearLayout.VERTICAL);
 		//allLayout.setBackgroundColor(Color.WHITE);
-		//setupLayoutTransitions();//禁止载入动画
+		setupLayoutTransitions();//禁止载入动画
 		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
 		allLayout.setPadding(50,15,50,15);//设置间距，防止生成图片时文字太靠边，不能用margin，否则有黑边
@@ -111,7 +118,8 @@ public class RichTextEditor extends ScrollView {
 			public void onClick(View v) {
 				if (v instanceof DataImageView){
 					//Toast.makeText(getContext(),"点击图片",Toast.LENGTH_SHORT).show();
-					onImageClick(v);
+					RelativeLayout parentView = (RelativeLayout) v.getParent();
+					onImageClick(parentView);
 				} else if (v instanceof ImageView){
 					//Toast.makeText(getContext(),"点击关闭",Toast.LENGTH_SHORT).show();
 					RelativeLayout parentView = (RelativeLayout) v.getParent();
@@ -120,12 +128,15 @@ public class RichTextEditor extends ScrollView {
 			}
 		};
 
+		//这里还不太明白，一聚焦到哪个EditText就赋给lastFocusEdit?
 		focusListener = new OnFocusChangeListener() {
 
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					lastFocusEdit = (EditText) v;
+					Log.i("","allLayout index"+allLayout.indexOfChild(lastFocusEdit));
+
 				}
 			}
 		};
@@ -133,9 +144,9 @@ public class RichTextEditor extends ScrollView {
 		LinearLayout.LayoutParams firstEditParam = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		//editNormalPadding = dip2px(EDIT_PADDING);
-		EditText firstEdit = createEditText("请输入内容", dip2px(context, EDIT_PADDING));
-		allLayout.addView(firstEdit, firstEditParam);
-		lastFocusEdit = firstEdit;
+//		EditText firstEdit = createEditText("", dip2px(context, EDIT_PADDING));
+//		allLayout.addView(firstEdit, firstEditParam);
+//		lastFocusEdit = firstEdit;
 	}
 
 	private int dip2px(Context context, float dipValue) {
@@ -195,6 +206,7 @@ public class RichTextEditor extends ScrollView {
 	private void onImageCloseClick(View view) {
 		//if (!mTransitioner.isRunning()) {
 			disappearingImageIndex = allLayout.indexOfChild(view);
+			Log.i("editData","关闭按钮的indexOfChild"+disappearingImageIndex);
 			//删除文件夹里的图片
 			List<EditData> dataList = buildEditData();
 			EditData editData = dataList.get(disappearingImageIndex);
@@ -217,22 +229,24 @@ public class RichTextEditor extends ScrollView {
 	 * @param view
      */
 	private void onImageClick(View view) {
-//		int currentItem = 0;
-//		disappearingImageIndex = allLayout.indexOfChild(view);
-//		//根据点击的view所在位置获取到图片地址
-//		List<EditData> dataList = buildEditData();
-//		EditData editData = dataList.get(disappearingImageIndex);
-//		//Log.i("", "###editData: "+editData);
-//		if (editData.imagePath != null){
-//			currentItem = imagePaths.indexOf(editData.imagePath);
-//		}
+		int currentItem = 0;
+		disappearingImageIndex = allLayout.indexOfChild(view);
+		Log.i("", "###editData: disappearingImageIndex:"+disappearingImageIndex);
+		//根据点击的view所在位置获取到图片地址
+		List<EditData> dataList = buildEditData();
+		Log.i("", "###editData: "+dataList.size()+" "+dataList.toString());
+
+		EditData editData = dataList.get(disappearingImageIndex);
+		if (editData.imagePath != null){
+			currentItem = imagePaths.indexOf(editData.imagePath);
+		}
 
 		//点击图片预览
-//		PhotoPreview.builder()
-//				.setPhotos(imagePaths)
-//				.setCurrentItem(currentItem)
-//				.setShowDeleteButton(false)
-//				.start(activity);
+		PhotoPreview.builder()
+				.setPhotos(imagePaths)
+				.setCurrentItem(currentItem)
+				.setShowDeleteButton(false)
+				.start(activity);
 	}
 
 	/**
@@ -256,6 +270,7 @@ public class RichTextEditor extends ScrollView {
 	 */
 	public EditText createEditText(String hint, int paddingTop) {
 		EditText editText = (EditText) inflater.inflate(R.layout.rich_edittext, null);
+		editText.setTextColor(getResources().getColor(R.color.white));
 		editText.setOnKeyListener(keyListener);
 		editText.setTag(viewTagIndex++);
 		editText.setPadding(editNormalPadding, paddingTop, editNormalPadding, paddingTop);
@@ -303,8 +318,10 @@ public class RichTextEditor extends ScrollView {
 
 		if (lastEditStr.length() == 0) {
 			//如果当前获取焦点的EditText为空，直接在EditText下方插入图片，并且插入空的EditText
-			addEditTextAtIndex(lastEditIndex + 1, "");
+
 			addImageViewAtIndex(lastEditIndex + 1, bitmap, imagePath);
+			addEditTextAtIndex(lastEditIndex + 2, "");
+			//此处addView如果index一样，同时该index处如果已经有View则该下移，给插入进去的View让出空间
 		} else if (editStr1.length() == 0) {
 			//如果光标已经顶在了editText的最前面，则直接插入图片，并且EditText下移即可
 			addImageViewAtIndex(lastEditIndex, bitmap, imagePath);
@@ -319,9 +336,10 @@ public class RichTextEditor extends ScrollView {
 			//把光标前面的字符串保留，设置给当前获得焦点的EditText（此为分割出来的第一个EditText）
 			lastFocusEdit.setText(editStr1);
 			//把光标后面的字符串放在新创建的EditText中（此为分割出来的第二个EditText）
+			addEditTextAtIndex(lastEditIndex + 1, "");
 			addEditTextAtIndex(lastEditIndex + 1, editStr2);
 			//在第二个EditText的位置插入一个空的EditText，以便连续插入多张图片时，有空间写文字，第二个EditText下移
-			addEditTextAtIndex(lastEditIndex + 1, "");
+
 			//在空的EditText的位置插入图片布局，空的EditText下移
 			addImageViewAtIndex(lastEditIndex + 1, bitmap, imagePath);
 		}
@@ -362,6 +380,7 @@ public class RichTextEditor extends ScrollView {
 		lastFocusEdit = editText2;
 		lastFocusEdit.requestFocus();
 		lastFocusEdit.setSelection(editStr.length(), editStr.length());
+		Log.i("addIndexEdit",""+index);
 	}
 
 	/**
@@ -371,7 +390,9 @@ public class RichTextEditor extends ScrollView {
 		imagePaths.add(imagePath);
 		RelativeLayout imageLayout = createImageLayout();
 		final DataImageView imageView = (DataImageView) imageLayout.findViewById(R.id.edit_imageView);
-		Glide.with(getContext()).load(imagePath).asBitmap().centerCrop().into(new SimpleTarget<Bitmap>() {
+		Glide.with(getContext()).load(imagePath).asBitmap().centerCrop().dontAnimate().placeholder(R.drawable.img_load_fail)
+				.error(R.drawable.img_load_fail)
+				.into(new SimpleTarget<Bitmap>() {
 			@Override
 			public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
 				imageView.setImageBitmap(resource);
@@ -399,6 +420,7 @@ public class RichTextEditor extends ScrollView {
 //				allLayout.addView(imageLayout, index);
 //			}
 //		}, 200);
+		Log.i("addIndexImage",""+index);
 	}
 
 	/**
@@ -470,7 +492,50 @@ public class RichTextEditor extends ScrollView {
 	 */
 	private void setupLayoutTransitions() {
 		mTransitioner = new LayoutTransition();
-		//allLayout.setLayoutTransition(mTransitioner);
+		allLayout.setLayoutTransition(mTransitioner);
+
+		PropertyValuesHolder pvhLeft =
+				PropertyValuesHolder.ofInt("left", 0, 1);
+		PropertyValuesHolder pvhTop =
+				PropertyValuesHolder.ofInt("top", 0, 1);
+		PropertyValuesHolder pvhRight =
+				PropertyValuesHolder.ofInt("right", 0, 1);
+		PropertyValuesHolder pvhBottom =
+				PropertyValuesHolder.ofInt("bottom", 0, 1);
+
+
+		/**
+		 * view出现时，导致整个布局改变的动画
+		 */
+		PropertyValuesHolder animator3 = PropertyValuesHolder.ofFloat("scaleX", 1F, 2F, 1F);
+		final ObjectAnimator changeIn = ObjectAnimator.ofPropertyValuesHolder(
+				this, pvhLeft, pvhTop, pvhRight, pvhBottom, animator3).
+				setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_APPEARING));
+		changeIn.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				View view = (View) ((ObjectAnimator) animation).getTarget();
+				view.setScaleX(1.0f);
+			}
+		});
+		mTransitioner.setAnimator(LayoutTransition.CHANGE_APPEARING, changeIn);
+
+		Keyframe kf0 = Keyframe.ofFloat(0f, 0f);
+		Keyframe kf1 = Keyframe.ofFloat(.5f, 2f);
+		Keyframe kf2 = Keyframe.ofFloat(1f, 0f);
+		PropertyValuesHolder pvhRotation =
+				PropertyValuesHolder.ofKeyframe("scaleX", kf0, kf1, kf2);
+		final ObjectAnimator changeOut = ObjectAnimator.ofPropertyValuesHolder(
+				this, pvhLeft, pvhTop, pvhRight, pvhBottom, pvhRotation).
+				setDuration(mTransitioner.getDuration(LayoutTransition.CHANGE_DISAPPEARING));
+		changeOut.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				View view = (View) ((ObjectAnimator) animation).getTarget();
+				view.setScaleX(1.0f);
+			}
+		});
+		mTransitioner.setAnimator(LayoutTransition.CHANGE_DISAPPEARING, changeOut);
 //		mTransitioner.addTransitionListener(new TransitionListener() {
 //
 //			@Override
@@ -512,7 +577,7 @@ public class RichTextEditor extends ScrollView {
 				mergeText = str1;
 			}
 
-			allLayout.setLayoutTransition(null);
+			//allLayout.setLayoutTransition(null);
 			allLayout.removeView(nextEdit);
 			preEdit.setText(mergeText);
 			preEdit.requestFocus();

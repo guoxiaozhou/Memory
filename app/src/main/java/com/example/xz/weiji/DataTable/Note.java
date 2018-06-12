@@ -16,15 +16,6 @@ public class Note extends BmobObject {
     private String sort;
     private String title;
 
-    public List<BmobFile> getImages() {
-        return images;
-    }
-
-    public void setImages(List<BmobFile> images) {
-        this.images = images;
-    }
-
-    private List<BmobFile> images;
 
     public String getTitle() {
         return title;

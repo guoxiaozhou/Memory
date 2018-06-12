@@ -30,17 +30,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.xz.weiji.Activity.ClassifyActivity;
-import com.example.xz.weiji.Activity.DaojishiActivity;
-import com.example.xz.weiji.Activity.EditActivity;
-import com.example.xz.weiji.Activity.NoteActivity;
-import com.example.xz.weiji.Activity.NoteListActivity;
-import com.example.xz.weiji.Activity.ReFirestpageActivity;
-import com.example.xz.weiji.Activity.ZhangbenActivity;
+import com.example.xz.weiji.AppActivity.ClassifyActivity;
+import com.example.xz.weiji.AppActivity.DaojishiActivity;
+import com.example.xz.weiji.AppActivity.EditActivity;
+import com.example.xz.weiji.AppActivity.NoteActivity;
+import com.example.xz.weiji.AppActivity.NoteListActivity;
+import com.example.xz.weiji.AppActivity.ReFirestpageActivity;
 import com.example.xz.weiji.DataTable.Group;
 import com.example.xz.weiji.DataTable.Note;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.View.RecycleViewDivider;
+import com.jeek.calendar.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -311,7 +311,8 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
 //                //getActivity().finish();
 //                break;
             case R.id.ll_beiwang:
-                startDialog();
+                  startActivity(new Intent(context, MainActivity.class));
+//                startDialog();
                 break;
             case R.id.ll_daojishi:
                 startActivity(new Intent(context,DaojishiActivity.class));

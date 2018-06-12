@@ -89,4 +89,5 @@ public abstract class BaseActivity extends AppCompatActivity implements BGASwipe
         }
         mSwipeBackHelper.backward();
     }
+
 }

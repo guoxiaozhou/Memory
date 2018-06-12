@@ -1,1 +1,1 @@
-include ':app', ':myapplication', ':xrichtext'
+include ':app', ':myapplication', ':xrichtext', ':calendar', ':calendarapp', ':common'

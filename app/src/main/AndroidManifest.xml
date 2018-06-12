@@ -14,17 +14,25 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/launcher_memory"
-        android:label="@string/app_name"
+        android:label="@string/application_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme,android:allowBackup,android:name">
+        tools:replace="android:icon,android:theme,android:allowBackup,android:name,android:label">
+        //友盟设置
+        <meta-data android:value="5b021f49f43e48045a0000ac" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
+
+
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name="com.example.xz.weiji.AppActivity.LoginActivity"
             android:theme="@style/Theme.AppStartLoad">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +40,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        //
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -50,27 +57,33 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+
+        </activity>
         <activity
-            android:name=".Activity.RegisterActivity"
+            android:name=".AppActivity.RegisterActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.NoteActivity"
-            android:theme="@style/NoteStyle"></activity>
+            android:name=".AppActivity.NoteActivity"
+            android:theme="@style/NoteStyle">
+
+        </activity>
         <activity
-            android:name=".Activity.EditActivity"
+            android:name=".AppActivity.EditActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Activity.TestActivity"></activity>
+        <activity android:name=".AppActivity.TestActivity">
+
+        </activity>
         <activity
-            android:name=".Activity.MoneyActivity"
+            android:name=".AppActivity.MoneyActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
-        <activity android:name=".Activity.ClassifyActivity" />
-        <activity android:name=".Activity.ChangePersonActivity" />
-        <activity android:name=".Activity.ReFirestpageActivity"></activity>
-        <activity android:name=".Activity.NoteListActivity" />
-        <activity android:name=".Activity.ZhangbenActivity" />
-        <activity android:name=".Activity.DaojishiActivity" />
-        <activity android:name=".Activity.HeadActivity" />
+        <activity android:name=".AppActivity.ClassifyActivity" />
+        <activity android:name=".AppActivity.ChangePersonActivity" />
+        <activity android:name=".AppActivity.ReFirestpageActivity"></activity>
+        <activity android:name=".AppActivity.NoteListActivity" />
+        <activity android:name=".AppActivity.ZhangbenActivity" />
+        <activity android:name=".AppActivity.DaojishiActivity" />
+        <activity android:name=".AppActivity.HeadActivity" />
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/AnotherAppTheme"
@@ -79,6 +92,19 @@
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/AnotherAppTheme"
             android:screenOrientation="portrait" />
+
+        //每日新闻下的Activity
+        <activity android:name=".MyApplicationActivity.MainActivity" >
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".MyApplicationActivity.ItemActivity"
+            android:theme="@style/AppTheme.Transparent"/>
+
     </application>
 
 </manifest>
