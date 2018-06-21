@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.xz.weiji.AppActivity.ChangePersonActivity;
 import com.example.xz.weiji.AppActivity.LoginActivity;
 import com.example.xz.weiji.R;
+import com.umeng.analytics.MobclickAgent;
 
 import cn.bmob.v3.BmobUser;
 
@@ -66,6 +67,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rl_eachmonth:
+                MobclickAgent.onEvent(context, "news", "友盟");
                 startActivity(new Intent(context, com.example.xz.weiji.MyApplicationActivity.MainActivity.class));
                 break;
             case R.id.rl_changeperson:

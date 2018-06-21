@@ -140,6 +140,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             //点击登录按钮
             case R.id.bt_login:
                 progressDialog.show();
+                MobclickAgent.onEvent(this, "login", "友盟");
                 loginUser();
                 break;
             //点击注册
@@ -169,6 +170,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         }
     }
-
-
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        MobclickAgent.onResume(this);
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPause(this);
+//    }
 }

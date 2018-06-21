@@ -26,6 +26,7 @@ import com.example.xz.weiji.Fragment.MyFragment;
 import com.example.xz.weiji.Fragment.NoteListFragment;
 import com.example.xz.weiji.R;
 import com.example.xz.weiji.Utils.Utils;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 
@@ -118,12 +119,7 @@ public class ReFirestpageActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        downloadHead();
-        tv_user.setText(BmobUser.getCurrentUser().getUsername());
-    }
+
 
 
     /**
@@ -205,5 +201,19 @@ public class ReFirestpageActivity extends BaseActivity {
 
                 });
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        downloadHead();
+        tv_user.setText(BmobUser.getCurrentUser().getUsername());
+//        MobclickAgent.onResume(this);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+//        MobclickAgent.onPause(this);
     }
 }
