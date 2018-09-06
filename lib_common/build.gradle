@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+android {
+
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //app_module依赖包
+//        api rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["support-design"]
+    api rootProject.ext.dependencies["support-v4"]
+    api rootProject.ext.dependencies["MaterialEditText"]
+    api rootProject.ext.dependencies["CircleImageView"]
+    api rootProject.ext.dependencies["MultiDex"]
+    api rootProject.ext.dependencies["PhotoPicker"]
+    api rootProject.ext.dependencies["constraint-layout"]
+    api rootProject.ext.dependencies["support-design"]
+    testApi rootProject.ext.dependencies["junit"]
+    api rootProject.ext.dependencies["noHttp"]
+    api rootProject.ext.dependencies["picasso"]
+    api rootProject.ext.dependencies["swipeLayout"]
+    api rootProject.ext.dependencies["statusBar"]
+    api rootProject.ext.dependencies["LRecyclerView"]
+    api rootProject.ext.dependencies["gson"]
+    //依赖jar包
+    compile files('libs/BmobStat_v1.0_0929.jar')
+    compile files('libs/BmobSDK_3.6.4_20180614.jar')
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile files('libs/okio-1.12.0.jar')
+    compile files('libs/open_sdk_r5793_lite.jar')
+    compile files('libs/org.apache.http.legacy.jar')
+    compile files('libs/rxandroid-1.2.0.jar')
+    compile files('libs/rxjava-1.1.6.jar')
+    compile files('libs/umeng-common-1.4.4.jar')
+    compile files('libs/litepal-1.6.0.jar')
+}

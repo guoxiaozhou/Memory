@@ -9,12 +9,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/calendar" />
-            <option value="$PROJECT_DIR$/calendarapp" />
-            <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/myapplication" />
-            <option value="$PROJECT_DIR$/xrichtext" />
+            <option value="$PROJECT_DIR$/lib_calendar" />
+            <option value="$PROJECT_DIR$/lib_common" />
+            <option value="$PROJECT_DIR$/lib_xrichtext" />
+            <option value="$PROJECT_DIR$/module_app" />
+            <option value="$PROJECT_DIR$/module_calendar" />
+            <option value="$PROJECT_DIR$/module_news" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

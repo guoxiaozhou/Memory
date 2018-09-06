@@ -1,1 +1,1 @@
-include ':app', ':myapplication', ':xrichtext', ':calendar', ':calendarapp', ':common'
+include ':module_app', ':module_news', ':lib_xrichtext', ':lib_calendar', ':module_calendar', ':lib_common'
