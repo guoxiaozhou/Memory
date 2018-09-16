@@ -326,23 +326,23 @@ public class NoteListFragment extends Fragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    private void startDialog() {
-        Button bt_beiwang;
-        final EditText et_beiwang;
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_layout, null);
-        bt_beiwang = (Button) view.findViewById(R.id.bt_beiwang);
-        et_beiwang = (EditText) view.findViewById(R.id.et_beiwang);
-        et_beiwang.setSelection(0);
-        dialog = new AlertDialog.Builder(context).setView(view)
-                .show();
-        bt_beiwang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(NoteActivity.this,"点击按钮"+et_beiwang.getText().toString(),Toast.LENGTH_SHORT).show();
-                notifyTongzhilan(et_beiwang.getText().toString());
-            }
-        });
-    }
+//    private void startDialog() {
+//        Button bt_beiwang;
+//        final EditText et_beiwang;
+//        View view = LayoutInflater.from(context).inflate(R.layout.dialog_layout, null);
+//        bt_beiwang = (Button) view.findViewById(R.id.bt_beiwang);
+//        et_beiwang = (EditText) view.findViewById(R.id.et_beiwang);
+//        et_beiwang.setSelection(0);
+//        dialog = new AlertDialog.Builder(context).setView(view)
+//                .show();
+//        bt_beiwang.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Toast.makeText(NoteActivity.this,"点击按钮"+et_beiwang.getText().toString(),Toast.LENGTH_SHORT).show();
+//                notifyTongzhilan(et_beiwang.getText().toString());
+//            }
+//        });
+//    }
 
 
     //发送备忘到通知栏
