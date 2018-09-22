@@ -286,6 +286,7 @@ public class NoteListActivity extends BaseActivity {
                     swipeLayout.setRefreshing(true);
                 }
             });
+            rclv_list.removeAllViews();
             arrayList.clear();
             datelist.clear();
             titlelist.clear();

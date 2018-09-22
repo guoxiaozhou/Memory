@@ -2,6 +2,7 @@ package com.example.xz.weiji.AppActivity;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -16,7 +17,12 @@ import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.xz.weiji.DataTable.Note;
@@ -25,6 +31,7 @@ import com.example.xz.weiji.Utils.CommonUtil;
 import com.example.xz.weiji.Utils.ImageUtils;
 import com.example.xz.weiji.Utils.StringUtils;
 import com.example.xz.weiji.Utils.Utils;
+import com.jimmy.common.util.ToastUtils;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.sendtion.xrichtext.RichTextEditor;
 
@@ -53,7 +60,7 @@ import rx.schedulers.Schedulers;
  * Created by xz on 2016/9/20.
  */
 
-public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener,RichTextEditor.OnDeleteImageListener {
+public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener, RichTextEditor.OnDeleteImageListener {
     private Toolbar toolBar;
     private RichTextEditor et_text;
     private BmobUser user;
@@ -63,9 +70,11 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
     private Note notebefore;
     private MaterialEditText et_notetitle;
     private Intent i;
-    private Bitmap bitmap=null;
+    private Bitmap bitmap = null;
     private ProgressDialog loadingDialog;
     private Subscription subsLoading;
+    private LinearLayout ll_editcontent;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +88,11 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 
         Note note = new Note();
         String s = getEditData();
-        String title=et_notetitle.getText().toString();
+        String title = et_notetitle.getText().toString();
         //submit();
         if (TextUtils.isEmpty(title)) {
             Toast.makeText(this, "标题不能为空", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             note.setNote(s);
             note.setTitle(title);
             note.setAuthor(user);
@@ -95,7 +104,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                         // Intent i = new Intent(EditActivity.this, NoteListActivity.class);
                         // i.putExtra("name", user.getUsername());
                         // startActivity(i);
-                        EditActivity.this.setResult(0x11,i);
+                        EditActivity.this.setResult(0x11, i);
                         //   EditActivity.this.setResult(0x12,i);
                         finish();
                     } else
@@ -108,8 +117,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 
     private void initView() {
         toolBar = (Toolbar) findViewById(R.id.toolBar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             toolBar.getLayoutParams().height = Utils.getAppBarHeight(this);
             toolBar.setPadding(toolBar.getPaddingLeft(),
                     Utils.getStatusBarHeight(this),
@@ -133,6 +141,8 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 //        et_text.setBackgroundColor(getResources().getColor(R.color.white));
         //  et_text.setSelection(0);
         et_notetitle = (MaterialEditText) findViewById(R.id.et_notetitle);
+        ll_editcontent = (LinearLayout) findViewById(R.id.ll_editcontent);
+
         //处理前先获得用户缓存数据
         user = BmobUser.getCurrentUser();
 
@@ -156,14 +166,27 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                 isTitle = i.getStringExtra("titlestring");
                 notebefore = (Note) i.getSerializableExtra("note");
                 isEmpty = false;
-            }else {
+            } else {
                 et_text.addEditTextAtIndex(et_text.getLastIndex(), "");
+                Log.i("xiaozhou", "执行了addEditTextAtIndex");
                 isEmpty = true;
 
             }
         }
-    }
+        ll_editcontent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
+                et_text.getLastEditText().requestFocus();
+
+                ((InputMethodManager)et_text.getLastEditText().getContext().getSystemService(
+                        Context.INPUT_METHOD_SERVICE)).showSoftInput(et_text.getLastEditText(),
+                        InputMethodManager.SHOW_IMPLICIT);
+
+                return false;
+            }
+        });
+    }
 
 
     //设置标题栏右边按钮点击事件
@@ -199,7 +222,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                     // Intent i = new Intent(EditActivity.this, NoteListActivity.class);
                     // i.putExtra("name", user.getUsername());
                     // startActivity(i);
-                    EditActivity.this.setResult(0x11,i);
+                    EditActivity.this.setResult(0x11, i);
                     //   EditActivity.this.setResult(0x12,i);
                     finish();
                 } else {
@@ -221,7 +244,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         //  Intent i = new Intent(EditActivity.this, NoteListActivity.class);
         //  i.putExtra("name", user.getUsername());
         // startActivity(i);
-        EditActivity.this.setResult(0x11,i);
+        EditActivity.this.setResult(0x11, i);
         finish();
         //super.onBackPressed();
 
@@ -247,14 +270,14 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             default:
                 break;
         }
     }
 
-    private void callGallery(){
+    private void callGallery() {
 //        //调用系统图库
 //        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");// 相片类型
@@ -268,6 +291,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                 .setPreviewEnabled(true)//是否可以预览
                 .start(this, PhotoPicker.REQUEST_CODE);
     }
+
     /**
      * Dispatch incoming result to the correct fragment.
      *
@@ -278,9 +302,9 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ContentResolver resolver=getContentResolver();
-        if(resultCode==RESULT_OK){
-            if(requestCode==1){
+        ContentResolver resolver = getContentResolver();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
 //                Uri uri=data.getData();
 //                try {
 //                     bitmap= BitmapFactory.decodeStream(resolver
@@ -294,11 +318,12 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 //                }else {
 //                    Toast.makeText(this,"图片插入失败",Toast.LENGTH_SHORT).show();
 //                }
-            }else if(requestCode == PhotoPicker.REQUEST_CODE){
+            } else if (requestCode == PhotoPicker.REQUEST_CODE) {
                 setImage(data);
             }
         }
     }
+
     public void setImage(final Intent data) {
         int width = CommonUtil.getScreenWidth(EditActivity.this);
         int height = CommonUtil.getScreenHeight(EditActivity.this);
@@ -311,18 +336,17 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         progressDialog.setCancelable(true);
 
 
-        int i=0;
+        int i = 0;
         //可以同时插入多张图片
         for (String imagePath : photos) {
             i++;
-            progressDialog.setMessage("上传第"+i+"张图片中...");
+            progressDialog.setMessage("上传第" + i + "张图片中...");
             progressDialog.show();
             //Log.i("NewActivity", "###path=" + imagePath);
             Bitmap bitmap = ImageUtils.getSmallBitmap(imagePath, width, height);//压缩图片
-            Log.i("EditActivity", "###imagePath="+imagePath);
+            Log.i("EditActivity", "###imagePath=" + imagePath);
 
-            File file=bitmapToFile(bitmap,imagePath);
-
+            File file = bitmapToFile(bitmap, imagePath);
 
 
             final BmobFile bmobFile = new BmobFile(file);
@@ -334,8 +358,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                         Toast.makeText(EditActivity.this, "上传文件成功"
                                 , Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
-                        Log.i("EditActivity",getEditData());
-
+                        Log.i("EditActivity", getEditData());
 
 
                     } else {
@@ -359,6 +382,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 
     /**
      * 获取编辑数据
+     *
      * @return
      */
     private String getEditData() {
@@ -373,11 +397,13 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         }
         return content.toString();
     }
+
     /**
      * 异步方式显示数据
+     *
      * @param html
      */
-    private void showDataSync(final String html){
+    private void showDataSync(final String html) {
 
         subsLoading = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
@@ -391,7 +417,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onCompleted() {
-                        if (loadingDialog != null){
+                        if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
                         //在图片全部插入完毕后，再插入一个EditText，防止最后一张图片后无法插入文字
@@ -400,10 +426,10 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 
                     @Override
                     public void onError(Throwable e) {
-                        if (loadingDialog != null){
+                        if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
-                        Toast.makeText(EditActivity.this,"解析错误：图片不存在或已损坏",Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditActivity.this, "解析错误：图片不存在或已损坏", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -413,33 +439,34 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
                             String imagePath = StringUtils.getImgSrc(text);
                             //插入空的EditText，以便在图片前后插入文字
                             //et_text.addEditTextAtIndex(et_text.getLastIndex(), "");
-                            et_text.addImageViewAtIndex(et_text.getLastIndex(), null,imagePath);
+                            et_text.addImageViewAtIndex(et_text.getLastIndex(), null, imagePath);
                         } else {
                             et_text.addEditTextAtIndex(et_text.getLastIndex(), text);
                         }
                     }
                 });
     }
+
     /**
      * 显示数据
      */
     protected void showEditData(Subscriber<? super String> subscriber, String html) {
-        try{
+        try {
             List<String> textList = StringUtils.cutStringByImgTag(html);
             for (int i = 0; i < textList.size(); i++) {
                 String text = textList.get(i);
                 subscriber.onNext(text);
             }
             subscriber.onCompleted();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             subscriber.onError(e);
         }
     }
 
-    public File bitmapToFile(Bitmap bitmap, String filename){
+    public File bitmapToFile(Bitmap bitmap, String filename) {
 
-        File file=new File(filename);//将要保存图片的路径
+        File file = new File(filename);//将要保存图片的路径
         try {
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
@@ -451,6 +478,7 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         }
         return null;
     }
+
     public Bitmap resizeImage(Bitmap bitmap, int w, int h) {
         Bitmap BitmapOrg = bitmap;
         int width = BitmapOrg.getWidth();
@@ -470,11 +498,11 @@ public class EditActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         return resizedBitmap;
     }
 
-    private SpannableString getBitmapMime(Bitmap pic,Uri uri){
-        String path=uri.getPath();
-        SpannableString ss=new SpannableString(path);
-        ImageSpan span=new ImageSpan(this,pic);
-        ss.setSpan(span,0,path.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private SpannableString getBitmapMime(Bitmap pic, Uri uri) {
+        String path = uri.getPath();
+        SpannableString ss = new SpannableString(path);
+        ImageSpan span = new ImageSpan(this, pic);
+        ss.setSpan(span, 0, path.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ss;
 
     }

@@ -142,7 +142,7 @@ public class DaojishiActivity extends BaseActivity implements Toolbar.OnMenuItem
                     rclv_mdaojishilist.setOnItemActionListener(new OnItemActionListener() {
                         @Override
                         public void OnItemClick(int position) {
-                            Toast.makeText(DaojishiActivity.this,"点击了倒计日",Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override

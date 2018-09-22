@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -92,9 +93,10 @@ public class RichTextEditor extends ScrollView {
 		//allLayout.setBackgroundColor(Color.WHITE);
 		setupLayoutTransitions();//禁止载入动画
 		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT);
+				LayoutParams.MATCH_PARENT);
 		allLayout.setPadding(50,15,50,15);//设置间距，防止生成图片时文字太靠边，不能用margin，否则有黑边
 		addView(allLayout, layoutParams);
+
 
 		// 2. 初始化键盘退格监听
 		// 主要用来处理点击回删按钮时，view的一些列合并操作
@@ -154,6 +156,10 @@ public class RichTextEditor extends ScrollView {
 		return (int) (dipValue * m + 0.5f);
 	}
 
+	public EditText getLastEditText(){
+		return lastFocusEdit;
+
+	}
 	/**
 	 * 处理软键盘backSpace回退事件
 	 * 
@@ -390,23 +396,40 @@ public class RichTextEditor extends ScrollView {
 		imagePaths.add(imagePath);
 		RelativeLayout imageLayout = createImageLayout();
 		final DataImageView imageView = (DataImageView) imageLayout.findViewById(R.id.edit_imageView);
-		Glide.with(getContext()).load(imagePath).asBitmap().centerCrop().dontAnimate().placeholder(R.drawable.img_load_fail)
-				.error(R.drawable.img_load_fail)
-				.into(new SimpleTarget<Bitmap>() {
-			@Override
-			public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-				imageView.setImageBitmap(resource);
-				imageView.setAbsolutePath(imagePath);
-				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				int imageHeight = allLayout.getWidth() * resource.getHeight() / resource.getWidth();
-				// 调整imageView的高度，根据宽度等比获得高度
-				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-						LayoutParams.MATCH_PARENT, imageHeight);//TODO 固定图片高度500，考虑自定义属性
-				lp.bottomMargin = 10;
-				imageView.setLayoutParams(lp);
-			}
-		});
+//		Glide.with(getContext()).load(imagePath).asBitmap().centerCrop().dontAnimate().placeholder(R.drawable.img_load_fail)
+//				.error(R.drawable.img_load_fail)
+//				.into(new SimpleTarget<Bitmap>() {
+//			@Override
+//			public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//				imageView.setImageBitmap(resource);
+//				imageView.setAbsolutePath(imagePath);
+//				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//				int imageHeight = allLayout.getWidth() * resource.getHeight() / resource.getWidth();
+//				// 调整imageView的高度，根据宽度等比获得高度
+//				RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+//						LayoutParams.MATCH_PARENT, imageHeight);//TODO 固定图片高度500，考虑自定义属性
+//				lp.bottomMargin = 10;
+//				imageView.setLayoutParams(lp);
+//			}
+//		});
 
+		Glide.with(getContext()).load(imagePath).asBitmap().dontAnimate()
+				.into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+					@Override
+					public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+						// 调整imageView的高度，根据宽度等比获得高度
+						int imageHeight = allLayout.getWidth() * resource.getHeight() / resource.getWidth();
+						RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+								LayoutParams.MATCH_PARENT, imageHeight);//固定图片高度，记得设置裁剪剧中
+						lp.bottomMargin = 10;
+						imageView.setLayoutParams(lp);
+
+						imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+						imageView.setImageBitmap(resource);
+//						Glide.with(getContext()).load(imagePath)
+//								.placeholder(R.drawable.img_load_fail).error(R.drawable.img_load_fail).into(imageView);
+					}
+				});
 
 		//裁剪剧中
 

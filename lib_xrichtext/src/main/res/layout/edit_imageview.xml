@@ -6,8 +6,9 @@
     <com.sendtion.xrichtext.DataImageView
         android:id="@+id/edit_imageView"
         android:layout_width="match_parent"
+        android:src="@drawable/new_img_loading"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY" />
+        android:scaleType="fitXY"/>
 
     <ImageView
         android:id="@+id/image_close"
