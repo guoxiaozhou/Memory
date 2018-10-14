@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity implements ResponseCallback<Basic
         BasicBean basicBean = response.get();
         if (basicBean != null) {
             if (what == 0) {
-                Toast.makeText(MainActivity.this, basicBean.getDate(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, basicBean.getDate(), Toast.LENGTH_LONG).show();
                 todayDate = basicBean.getDate();
                 //网络获取的列表
                 List<TopStory> topStorylist = basicBean.getTopStory();
@@ -161,6 +161,7 @@ public class MainActivity extends BaseActivity implements ResponseCallback<Basic
 
                 recyler_view.setLoadMoreEnabled(true);
 
+                loadMore();
 
             } else {
                 List<Story> storyList = basicBean.getStories();
@@ -252,13 +253,7 @@ public class MainActivity extends BaseActivity implements ResponseCallback<Basic
             @Override
             public void onLoadMore() {
 
-                if (null != todayDate) {
-                    date = Integer.parseInt(todayDate);
-
-                    Log.i("Date", "修改之前的日期" + date + "");
-                    requestBeforeData(date + "");
-                    date = date - 1;
-                }
+                loadMore();
             }
         });
         recyler_view.setFooterViewColor(R.color.background,R.color.background,R.color.transparent);
@@ -267,6 +262,15 @@ public class MainActivity extends BaseActivity implements ResponseCallback<Basic
         recyler_view.setHeaderViewColor(R.color.background,R.color.background,R.color.transparent);
 
 
+    }
+    public void loadMore(){
+        if (null != todayDate) {
+            date = Integer.parseInt(todayDate);
+
+            Log.i("Date", "修改之前的日期" + date + "");
+            requestBeforeData(date + "");
+            date = date - 1;
+        }
     }
 
 

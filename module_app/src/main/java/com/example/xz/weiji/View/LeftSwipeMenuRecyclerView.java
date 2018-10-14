@@ -82,7 +82,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                     //根据坐标获得view
                     View view = findChildViewUnder(x, y);
                     if (view == null) {
-                        return false;
+                        break;
                     }
                     String s=view.toString();
                     String string=s.substring(s.lastIndexOf("/")+1,s.lastIndexOf("/")+8);
@@ -143,8 +143,11 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                     mMenuState = MENU_CLOSED;
                     //该点击无效
                     return false;
-                } else {
-                    return false;
+                }
+                if (isItemMoving){
+                    mLastX = x;
+                    mLastY = y;
+                    return true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -152,6 +155,10 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 int dx = mLastX - x;
                 int dy = mLastY - y;
                 //上一点滑动的x
+                //action_on break后，mItemlayout有可能为空
+                if(mItemLayout==null){
+                    break;
+                }
                 int scrollx = mItemLayout.getScrollX();
 
                 if (Math.abs(dx) > Math.abs(dy)&&Math.abs(dx)>10) {
@@ -190,8 +197,11 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 if (!isItemMoving && !isDragging && mListener != null) {
                     mListener.OnItemClick(mPosition);
                 }
-                isItemMoving = false;
 
+                //与action_move同上
+                if(mItemLayout==null){
+                    break;
+                }
                 //等一下要移动的距离
                 int deltaX = 0;
                 //手指抬起来后的偏移位置
@@ -205,7 +215,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                     mMenuState = MENU_WILL_CLOSED;
                 }
                 //知道我们为什么不直接把mMenuState赋值为MENU_OPEN或者MENU_CLOSED吗？因为滑动时有时间的，我们可以在滑动完成时才把状态改为已经完成
-                mScroller.startScroll(upScrollx, 0, deltaX, 0, 500);
+                mScroller.startScroll(upScrollx, 0, deltaX, 0, 400);
                 isStartScroll = true;
                 //刷新界面
                 invalidate();
@@ -227,6 +237,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
         //如果已经完成就改变状态
         } else if (isStartScroll) {
             isStartScroll = false;
+            isItemMoving = false;
             if (mMenuState == MENU_WILL_CLOSED) {
                 mMenuState = MENU_CLOSED;
             }

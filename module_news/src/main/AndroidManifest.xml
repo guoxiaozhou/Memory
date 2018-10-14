@@ -24,8 +24,7 @@
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".ItemActivity"
-            android:theme="@style/AppTheme.Transparent"/>
+        <activity android:name=".ItemActivity"/>
     </application>
 
 </manifest>

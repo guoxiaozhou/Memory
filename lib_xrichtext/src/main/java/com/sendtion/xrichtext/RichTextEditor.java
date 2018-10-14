@@ -423,7 +423,7 @@ public class RichTextEditor extends ScrollView {
 								LayoutParams.MATCH_PARENT, imageHeight);//固定图片高度，记得设置裁剪剧中
 						lp.bottomMargin = 10;
 						imageView.setLayoutParams(lp);
-
+						imageView.setAbsolutePath(imagePath);
 						imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 						imageView.setImageBitmap(resource);
 //						Glide.with(getContext()).load(imagePath)

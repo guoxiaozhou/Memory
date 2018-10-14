@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,16 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.xz.weiji.DataTable.Note;
 import com.example.xz.weiji.R;
+import com.example.xz.weiji.Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Rusan on 2017/5/15.
@@ -56,7 +60,7 @@ public class RecyclerAdapter extends SecondaryListAdapter<RecyclerAdapter.GroupI
     @Override
     public RecyclerView.ViewHolder subItemViewHolder(ViewGroup parent) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_child, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_notelist, parent, false);
 
         return new SubItemViewHolder(v);
     }
@@ -73,9 +77,31 @@ public class RecyclerAdapter extends SecondaryListAdapter<RecyclerAdapter.GroupI
 
         final String text = ((Note)(dts.get(groupItemIndex).getSubItems().get(subItemIndex))).getNote();
         final String title = ((Note)(dts.get(groupItemIndex).getSubItems().get(subItemIndex))).getTitle();
-        ((SubItemViewHolder) holder).tv.setText(title);
-        ((SubItemViewHolder) holder).textView.setText(((Note)(dts.get(groupItemIndex).getSubItems().get(subItemIndex))).getUpdatedAt());
-        ((SubItemViewHolder) holder).tv_note.setText(text);
+        String date=((Note)(dts.get(groupItemIndex).getSubItems().get(subItemIndex))).getUpdatedAt();
+
+
+        List<String> textList = StringUtils.cutStringByImgTag(text);
+        StringBuilder note=new StringBuilder();
+        String img="";
+        for (String s:textList){
+            if (s.contains("<img") && s.contains("src=")) {
+                img=StringUtils.getImgSrc(s);
+            }else {
+                note.append(s);
+            }
+        }
+        Log.i("RVAdpter","img:"+img+"note:"+note);
+
+        //holder.tvContent.setText(list.get(position));
+        ((SubItemViewHolder)holder).title.setText(title);
+        ((SubItemViewHolder)holder).note.setText(note);
+        ((SubItemViewHolder)holder).date.setText(date);
+        if(TextUtils.isEmpty(img)){
+            ((SubItemViewHolder)holder).circleImageView.setVisibility(View.GONE);
+        }else {
+            ((SubItemViewHolder)holder).circleImageView.setVisibility(View.VISIBLE);
+            Glide.with(context).load(img).into(((SubItemViewHolder)holder).circleImageView);
+        }
 
     }
 
@@ -134,24 +160,25 @@ public class RecyclerAdapter extends SecondaryListAdapter<RecyclerAdapter.GroupI
 
     public static class SubItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvSub;
-        TextView tv;
-        TextView tv_note;
-        TextView textView;
-        LinearLayout layout;
+        public CircleImageView circleImageView;
+
+        public LinearLayout llLayout;
+        public LinearLayout llDelete;
+        public LinearLayout llStar;
+        public TextView title;
+        public TextView note;
+        public TextView date;
+
         public SubItemViewHolder(View itemView) {
             super(itemView);
+            title=(TextView)itemView.findViewById(R.id.tv_notetitle);
+            note=(TextView)itemView.findViewById(R.id.tv_note);
+            date=(TextView)itemView.findViewById(R.id.tv_date);
+            llLayout= (LinearLayout) itemView.findViewById(R.id.ll_item);
+            llDelete=(LinearLayout)itemView.findViewById(R.id.ll_delete);
+            llStar=(LinearLayout)itemView.findViewById(R.id.ll_star);
+            circleImageView=(CircleImageView)itemView.findViewById(R.id.iv_note);
 
-
-
-//            Log.i("getChild",title);
-//            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            LinearLayout linearLayout = (LinearLayout) layoutInflater.inflate(R.layout.list_child, null);
-            tv = (TextView) itemView.findViewById(R.id.childTo);
-            tv_note = (TextView) itemView.findViewById(R.id.tv_classify_note);
-            textView = (TextView) itemView.findViewById(R.id.tv_classify_date);
-            layout = (LinearLayout) itemView.findViewById(R.id.ll_classify_item);
-;
         }
     }
 

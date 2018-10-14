@@ -92,7 +92,7 @@ dependencies {
     //    implementation 'com.android.support:cardview-v7:26.1.0'
     //    implementation 'com.android.support:animated-vector-drawable:26.1.0'
     implementation project(':module_news')
-    implementation project(path: ':lib_xrichtext')
+    compile project(path: ':lib_xrichtext')
     implementation project(':module_calendar')
     implementation project(':lib_common')
 }
