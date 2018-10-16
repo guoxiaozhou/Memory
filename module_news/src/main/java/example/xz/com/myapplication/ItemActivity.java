@@ -25,6 +25,8 @@ public class ItemActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         initView();
+        Log.i("ItemActivity","测试提交");
+        Log.i("ItemActivity","测试覆盖提交");
     }
 
     private void initView() {
