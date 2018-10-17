@@ -57,6 +57,7 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
 
     //item的事件监听
     private OnItemActionListener mListener;
+    private Boolean isItemViewNull;
 
     public LeftSwipeMenuRecyclerView(Context context) {
         this(context, null);
@@ -81,7 +82,15 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 if (mMenuState == MENU_CLOSED) {
                     //根据坐标获得view
                     View view = findChildViewUnder(x, y);
+                    /**点击到列表的空白区域时，将触摸事件交由父容器处理，下一次ActionUp事件还会从此处开始处理
+                     而如果直接返回false则，下一次事件直接返回false?
+                     点击事件会有三个触摸事件传递：down->move->up
+                     *
+                     */
+
+                    isItemViewNull=false;
                     if (view == null) {
+                        isItemViewNull=true;
                         break;
                     }
                     String s=view.toString();
@@ -193,15 +202,17 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                //手指抬起时判断是否点击,静止且有Listener才能点击
-                if (!isItemMoving && !isDragging && mListener != null) {
-                    mListener.OnItemClick(mPosition);
-                }
-
                 //与action_move同上
                 if(mItemLayout==null){
                     break;
                 }
+                //手指抬起时判断是否点击,静止且有Listener才能点击
+                if (!isItemMoving && !isDragging && mListener != null&&!isItemViewNull) {
+                    mListener.OnItemClick(mPosition);
+                }
+
+
+
                 //等一下要移动的距离
                 int deltaX = 0;
                 //手指抬起来后的偏移位置
