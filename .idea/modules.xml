@@ -3,18 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Memory.iml" filepath="$PROJECT_DIR$/Memory.iml" />
-      <module fileurl="file://F:\AndroidProject\Memory\module_app\app.iml" filepath="F:\AndroidProject\Memory\module_app\app.iml" />
-      <module fileurl="file://F:\AndroidProject\Memory\lib_calendar\calendar.iml" filepath="F:\AndroidProject\Memory\lib_calendar\calendar.iml" />
-      <module fileurl="file://F:\AndroidProject\Memory\module_calendar\calendarapp.iml" filepath="F:\AndroidProject\Memory\module_calendar\calendarapp.iml" />
-      <module fileurl="file://F:\AndroidProject\Memory\lib_common\common.iml" filepath="F:\AndroidProject\Memory\lib_common\common.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_calendar/lib_calendar.iml" filepath="$PROJECT_DIR$/lib_calendar/lib_calendar.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_common/lib_common.iml" filepath="$PROJECT_DIR$/lib_common/lib_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/lib_xrichtext/lib_xrichtext.iml" filepath="$PROJECT_DIR$/lib_xrichtext/lib_xrichtext.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_app/module_app.iml" filepath="$PROJECT_DIR$/module_app/module_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_calendar/module_calendar.iml" filepath="$PROJECT_DIR$/module_calendar/module_calendar.iml" />
       <module fileurl="file://$PROJECT_DIR$/module_news/module_news.iml" filepath="$PROJECT_DIR$/module_news/module_news.iml" />
-      <module fileurl="file://F:\AndroidProject\Memory\module_news\myapplication.iml" filepath="F:\AndroidProject\Memory\module_news\myapplication.iml" />
-      <module fileurl="file://F:\AndroidProject\Memory\lib_xrichtext\xrichtext.iml" filepath="F:\AndroidProject\Memory\lib_xrichtext\xrichtext.iml" />
     </modules>
   </component>
 </project>

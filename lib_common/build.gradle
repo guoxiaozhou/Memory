@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    //3.0版本之后compile被dumped，api=compile
     //app_module依赖包
 //        api rootProject.ext.dependencies["appcompat-v7"]
     api rootProject.ext.dependencies["support-design"]

@@ -228,7 +228,9 @@ public class LeftSwipeMenuRecyclerView extends RecyclerView {
                 //知道我们为什么不直接把mMenuState赋值为MENU_OPEN或者MENU_CLOSED吗？因为滑动时有时间的，我们可以在滑动完成时才把状态改为已经完成
                 mScroller.startScroll(upScrollx, 0, deltaX, 0, 400);
                 isStartScroll = true;
-                //刷新界面
+                //该方法导致View重绘，在onDraw()方法中调用computeScroll()，该方法在View中为空，
+                //由我们重写，computeScroll()会判断去向Scroller获取当前的CurrX,CurrY，如果还没完成滑动
+                //则通过scrollTo()滑动，接着调用postInvalidate()继续重绘，循环此过程
                 invalidate();
                 break;
         }

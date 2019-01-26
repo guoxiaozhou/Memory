@@ -115,8 +115,7 @@ public class TestDialog extends Dialog {
         scroller=new Scroller(context,new LinearInterpolator());
 
     }
-    float startY,moveY;
-
+    float startY,moveY,startX;
     /**
      * Called to process touch screen events.  You can override this to
      * intercept all touch screen events before they are dispatched to the
@@ -132,23 +131,33 @@ public class TestDialog extends Dialog {
         int y = (int) ev.getY();
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
+                startX=ev.getX();
                 startY=ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dx = mLastX - x;
                 int dy = mLastY - y;
 
-                if(Math.abs(dx) < Math.abs(dy)&&Math.abs(dy)>10&&Math.abs(dx)<50){
-                    moveY=ev.getY()-startY;
-                    view.scrollBy(0,dy);
+                int desX=(int)startX-x;
+                int desY=(int)startY-y;
+                /**
+                 * 1.dy/dx是根据角度来判断什么时候进入if条件
+                 * 2.|des|<50表示触摸从down到Move的水平移动距离要满足<50才进入if条件
+                 */
+                if ((mLastX!=x && Math.abs(dy) / Math.abs(dx) > 2&&Math.abs(desX)<30)||(dx==0&&dy!=0)) {
 
-                    startY=ev.getY();
-                    isYMoving=true;
-                    if(view.getScrollY()>0){
-                        view.scrollTo(0,0);
-                    }
+//                    if(Math.abs(dx) < Math.abs(dy)&&Math.abs(dy)>10&&Math.abs(dx)<50) {
+
+                        moveY = ev.getY() - startY;
+                        view.scrollBy(0, dy);
+
+                        startY = ev.getY();
+                        isYMoving = true;
+                        if (view.getScrollY() > 0) {
+                            view.scrollTo(0, 0);
+                        }
+//                    }
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
 
